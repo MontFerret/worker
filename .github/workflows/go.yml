@@ -31,4 +31,4 @@ jobs:
         go build -o=./bin/worker ./cmd/server/main.go 
 
     - name: Test
-      run: go test -v .
+      run: go test -v ./...
