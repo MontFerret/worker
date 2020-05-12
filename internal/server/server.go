@@ -14,7 +14,7 @@ type Server struct {
 
 func New() *Server {
 	return &Server{
-		worker: &worker.DefaultWorker,
+		worker: worker.NewWithoutFS(),
 	}
 }
 

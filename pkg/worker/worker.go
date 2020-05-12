@@ -2,6 +2,7 @@ package worker
 
 import (
 	"context"
+	"strings"
 
 	"github.com/MontFerret/ferret/pkg/compiler"
 	"github.com/MontFerret/ferret/pkg/runtime"
@@ -13,9 +14,17 @@ type Worker struct {
 	comp *compiler.Compiler
 }
 
-// DefaultWorker is the default Worker.
-var DefaultWorker = Worker{
-	comp: compiler.New(),
+// NewWithoutFS returns Worker without file system access.
+func NewWithoutFS() *Worker {
+	comp := compiler.New()
+
+	for _, funcname := range comp.RegisteredFunctions() {
+		if strings.HasPrefix(funcname, "IO::FS") {
+			comp.RemoveFunction(funcname)
+		}
+	}
+
+	return &Worker{comp}
 }
 
 type (
