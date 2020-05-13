@@ -1,4 +1,4 @@
-FROM golang:alpine AS builder
+FROM golang:1.14-alpine AS builder
 
 # Install git.
 # Git is required for fetching the dependencies.
@@ -10,7 +10,7 @@ WORKDIR /go/src/github.com/MontFerret/worker
 COPY . .
 
 # Build the binary.
-RUN CGO_ENABLED=0 GOOS=linux make compile
+RUN CGO_ENABLED=0 GOOS=linux go build -o=./bin/worker ./cmd/server/main.go
 
 # Build the final container. And install
 FROM microbox/chromium-headless:75.0.3765.1 as runner
