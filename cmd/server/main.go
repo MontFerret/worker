@@ -27,8 +27,6 @@ func main() {
 
 	server := server.New()
 
-	log.Info().Msgf("listen at :%s", *port)
-
 	err = server.Run(*port)
 	log.Err(err).
 		Timestamp().

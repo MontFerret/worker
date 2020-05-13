@@ -13,8 +13,10 @@ type Server struct {
 }
 
 func New() *Server {
+	worker, _ := worker.New()
+
 	return &Server{
-		worker: worker.NewWithoutFS(),
+		worker,
 	}
 }
 
@@ -23,6 +25,7 @@ func New() *Server {
 // Port should not begin with ":".
 func (s *Server) Run(port string) error {
 	router := echo.New()
+	router.HideBanner = true
 
 	router.POST("/", s.runScript)
 
@@ -34,7 +37,7 @@ type httpError struct {
 }
 
 type runScriptBody struct {
-	Query worker.Query `json:"query"`
+	worker.Query
 }
 
 func (s *Server) runScript(ctx echo.Context) error {
