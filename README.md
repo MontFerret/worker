@@ -1,10 +1,10 @@
 # Worker
 
-**Worker** is the simple HTTP server that accepts FQL queries, execute it and return the result.
+**Worker** is a simple HTTP server that accepts FQL queries, executes them and returns their results.
 
-## Docker
+## Batteries included
 
-Image contains headless Google Chrome so feel free to run queries using `cdp` driver.
+The Docker image contains headless Google Chrome, so feel free to run queries using `cdp` driver.
 
 1. Build image
 ```sh
