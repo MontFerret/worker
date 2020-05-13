@@ -1,17 +1,3 @@
-FROM golang:1.14-alpine AS builder
-
-# Install git.
-# Git is required for fetching the dependencies.
-# Make is requiered for build.
-RUN apk update && apk add --no-cache git make ca-certificates
-
-WORKDIR /go/src/github.com/MontFerret/worker
-
-COPY . .
-
-# Build the binary.
-RUN CGO_ENABLED=0 GOOS=linux go build -o=./bin/worker ./cmd/server/main.go
-
 # Build the final container. And install
 FROM microbox/chromium-headless:75.0.3765.1 as runner
 
@@ -19,12 +5,8 @@ RUN apt-get update && apt-get install -y dumb-init
 
 WORKDIR /root
 
-# Add in certs
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.c
-
 # Add worker binary
-COPY --from=builder /go/src/github.com/MontFerret/worker/bin/worker .
-
+COPY worker /bin/worker
 EXPOSE 8080
 
 ENTRYPOINT ["dumb-init", "--"]
