@@ -10,13 +10,15 @@ import (
 
 // Server is HTTP server that wraps Ferret worker.
 type Server struct {
-	worker *worker.Worker
+	settings Settings
+	worker   *worker.Worker
 }
 
-func New(opts ...worker.Option) *Server {
-	worker, _ := worker.New(opts...)
+func New(settings Settings) *Server {
+	worker, _ := worker.New(worker.WithCustomCDP(settings.CDP))
 
 	return &Server{
+		settings,
 		worker,
 	}
 }
@@ -29,16 +31,25 @@ func (s *Server) Run(port uint64) error {
 	router.HideBanner = true
 
 	router.POST("/", s.runScript)
+	router.GET("/health", s.healthCheck)
 
 	return router.Start(fmt.Sprintf("0.0.0.0:%d", port))
 }
 
-type httpError struct {
-	Error string `json:"error"`
-}
+func (s *Server) healthCheck(ctx echo.Context) error {
+	out, err := http.Get(fmt.Sprintf("%s/json/version", s.settings.CDP.URL()))
 
-type runScriptBody struct {
-	worker.Query
+	if err != nil {
+		return ctx.JSONPretty(
+			http.StatusBadRequest,
+			httpError{err.Error()},
+			"  ",
+		)
+	}
+
+	defer out.Body.Close()
+
+	return ctx.NoContent(http.StatusOK)
 }
 
 func (s *Server) runScript(ctx echo.Context) error {

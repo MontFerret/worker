@@ -4,10 +4,10 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/MontFerret/worker/pkg/worker"
 	"os"
 
 	"github.com/MontFerret/worker/internal/server"
+	"github.com/MontFerret/worker/pkg/worker"
 	"github.com/rs/zerolog/log"
 	"github.com/ziflex/waitfor/pkg/runner"
 	waitrunner "github.com/ziflex/waitfor/pkg/runner"
@@ -62,9 +62,11 @@ func main() {
 			Msg("wait for Chrome")
 	}
 
-	server := server.New(worker.WithCustomCDP(cdp))
+	srv := server.New(server.Settings{
+		CDP: cdp,
+	})
 
-	err = server.Run(*port)
+	err = srv.Run(*port)
 
 	log.Err(err).
 		Timestamp().
