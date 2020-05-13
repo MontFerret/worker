@@ -10,4 +10,4 @@ COPY worker /bin/worker
 EXPOSE 8080
 
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["/bin/sh", "-c", "chromium --no-sandbox --disable-setuid-sandbox --disable-gpu --headless --remote-debugging-port=9222 & ./worker"]
+CMD ["/bin/sh", "-c", "chromium --no-sandbox --disable-setuid-sandbox --disable-gpu --headless --remote-debugging-port=9222 & /bin/worker"]
