@@ -41,8 +41,8 @@ dockers:
     skip_push: false
     dockerfile: Dockerfile
     image_templates:
-      - "montferret/{{ .ProjectName }}:{{ .Tag }}"
-      - "montferret/{{ .ProjectName }}:v{{ .Major }}.{{ .Minor }}"
+      - "montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
+      - "montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}"
       - "montferret/{{ .ProjectName }}:latest"
     build_flag_templates:
       - "--pull"
