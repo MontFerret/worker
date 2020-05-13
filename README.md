@@ -40,3 +40,20 @@ make
 And then just make a POST request:
 
 ![worker](https://raw.githubusercontent.com/MontFerret/worker/master/assets/postman.png)
+
+
+## Usage
+
+```bash
+  -chrome-ip string
+        Google Chrome remote IP address (default "127.0.0.1")
+  -chrome-port uint
+        Google Chrome remote debugging port (default 9222)
+  -help
+        show this list
+  -port uint
+        port to listen (default 8080)
+  -version
+        show REPL version
+
+```

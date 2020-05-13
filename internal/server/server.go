@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/MontFerret/worker/pkg/worker"
@@ -12,8 +13,8 @@ type Server struct {
 	worker *worker.Worker
 }
 
-func New() *Server {
-	worker, _ := worker.New()
+func New(opts ...worker.Option) *Server {
+	worker, _ := worker.New(opts...)
 
 	return &Server{
 		worker,
@@ -23,13 +24,13 @@ func New() *Server {
 // Run start server that serve at the given port.
 //
 // Port should not begin with ":".
-func (s *Server) Run(port string) error {
+func (s *Server) Run(port uint64) error {
 	router := echo.New()
 	router.HideBanner = true
 
 	router.POST("/", s.runScript)
 
-	return router.Start("0.0.0.0:" + port)
+	return router.Start(fmt.Sprintf("0.0.0.0:%d", port))
 }
 
 type httpError struct {

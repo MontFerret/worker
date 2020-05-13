@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
+	"github.com/MontFerret/worker/pkg/worker"
+	"os"
 
 	"github.com/MontFerret/worker/internal/server"
 	"github.com/rs/zerolog/log"
@@ -11,30 +14,65 @@ import (
 )
 
 var (
-	port               = flag.String("port", "8080", "port to listen")
-	chromeDebugginPort = flag.String("chrome-port", "9222", "Google Chrome remote debugging port")
+	version string
+
+	port = flag.Uint64("port", 8080, "port to listen")
+
+	chromeIP = flag.String("chrome-ip", "127.0.0.1", "Google Chrome remote IP address")
+
+	chromeDebuggingPort = flag.Uint64("chrome-port", 9222, "Google Chrome remote debugging port")
+
+	showVersion = flag.Bool(
+		"version",
+		false,
+		"show REPL version",
+	)
+
+	help = flag.Bool(
+		"help",
+		false,
+		"show this list",
+	)
 )
 
 func main() {
 	flag.Parse()
 
-	err := waitForChrome(*chromeDebugginPort)
+	if *help {
+		flag.PrintDefaults()
+		os.Exit(0)
+		return
+	}
+
+	if *showVersion {
+		fmt.Println(version)
+		os.Exit(0)
+		return
+	}
+
+	cdp := worker.CDPSettings{
+		Host: *chromeIP,
+		Port: *chromeDebuggingPort,
+	}
+	err := waitForChrome(cdp)
+
 	if err != nil {
 		log.Fatal().
 			Err(err).
 			Msg("wait for Chrome")
 	}
 
-	server := server.New()
+	server := server.New(worker.WithCustomCDP(cdp))
 
 	err = server.Run(*port)
+
 	log.Err(err).
 		Timestamp().
 		Msg("listen and server")
 }
 
-func waitForChrome(port string) error {
+func waitForChrome(cdp worker.CDPSettings) error {
 	return waitrunner.Test(context.Background(), []string{
-		"http://127.0.0.1:" + port,
+		cdp.URL(),
 	}, runner.WithAttempts(10))
 }
