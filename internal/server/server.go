@@ -65,5 +65,5 @@ func (s *Server) runScript(ctx echo.Context) error {
 		)
 	}
 
-	return ctx.JSONPretty(http.StatusOK, string(out.Raw), "  ")
+	return ctx.JSONBlob(http.StatusOK, out.Raw)
 }
