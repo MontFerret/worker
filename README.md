@@ -23,12 +23,6 @@
 
 **Worker** is a simple HTTP server that accepts FQL queries, executes them and returns their results.
 
-## Features
-- Parallel execution
-- Support of multiple types of remote runtime (local binaries or HTTP services)
-- Support of multiple types of script locations (file system, git, http)
-- Arbitrary amount of HTTP endpoints for serving static files
-
 ## Quick start
 
 The Worker is shipped with dedicated Docker image that contains headless Google Chrome, so feel free to run queries using `cdp` driver:
