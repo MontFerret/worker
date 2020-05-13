@@ -9,4 +9,4 @@ The Docker image contains headless Google Chrome, so feel free to run queries us
 docker run -d -p 8080 montferret/worker
 ```
 
-![worker](https://raw.githubusercontent.com/MontFerret/worker/master/assets/postman.jpg)
+![worker](https://raw.githubusercontent.com/MontFerret/worker/master/assets/postman.png)
