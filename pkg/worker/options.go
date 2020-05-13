@@ -20,8 +20,12 @@ type (
 	Option func(opts *Options)
 )
 
-func (s CDPSettings) URL() string {
+func (s CDPSettings) BaseURL() string {
 	return fmt.Sprintf("http://%s:%d", s.Host, s.Port)
+}
+
+func (s CDPSettings) VersionURL() string {
+	return fmt.Sprintf("%s/json/version", s.BaseURL())
 }
 
 func newOptions() *Options {

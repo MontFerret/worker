@@ -13,8 +13,8 @@ import (
 
 // Worker accepts FQL-script, run it and return result.
 type Worker struct {
-	comp *compiler.Compiler
-	drivers  []drivers.Driver
+	comp    *compiler.Compiler
+	drivers []drivers.Driver
 }
 
 // New returns Worker without file system access.
@@ -43,7 +43,7 @@ func New(setters ...Option) (*Worker, error) {
 		comp: comp,
 		drivers: []drivers.Driver{
 			cdp.NewDriver(
-				cdp.WithAddress(opts.cdp.URL()),
+				cdp.WithAddress(opts.cdp.BaseURL()),
 			),
 			http.NewDriver(),
 		},

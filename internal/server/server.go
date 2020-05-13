@@ -37,11 +37,11 @@ func (s *Server) Run(port uint64) error {
 }
 
 func (s *Server) healthCheck(ctx echo.Context) error {
-	out, err := http.Get(fmt.Sprintf("%s/json/version", s.settings.CDP.URL()))
+	out, err := http.Get(s.settings.CDP.VersionURL())
 
 	if err != nil {
 		return ctx.JSONPretty(
-			http.StatusBadRequest,
+			http.StatusFailedDependency,
 			httpError{err.Error()},
 			"  ",
 		)

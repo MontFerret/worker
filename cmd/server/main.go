@@ -75,6 +75,6 @@ func main() {
 
 func waitForChrome(cdp worker.CDPSettings) error {
 	return waitrunner.Test(context.Background(), []string{
-		cdp.URL(),
+		cdp.BaseURL(),
 	}, runner.WithAttempts(10))
 }
