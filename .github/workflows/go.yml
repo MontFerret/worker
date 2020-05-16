@@ -28,7 +28,7 @@ jobs:
 
     - name: Build
       run: |
-        go build -o=./bin/worker ./cmd/server/main.go 
+        go build -o=./bin/worker ./main.go
 
     - name: Test
       run: go test -v ./...
