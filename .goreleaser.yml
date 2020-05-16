@@ -9,7 +9,7 @@ before:
 builds:
   - env:
       - CGO_ENABLED=0
-    main: ./cmd/server/main.go
+    main: ./main.go
     goos:
       - linux
       - darwin

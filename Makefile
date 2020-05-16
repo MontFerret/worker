@@ -1,7 +1,7 @@
 default: compile start
 
 compile:
-	go build -o=./bin/worker ./cmd/server/main.go
+	go build -o=./bin/worker ./main.go
 
 start:
 	./bin/worker
