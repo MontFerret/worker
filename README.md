@@ -41,8 +41,15 @@ And then just make a POST request:
 
 ![worker](https://raw.githubusercontent.com/MontFerret/worker/master/assets/postman.png)
 
-
 ## Usage
+
+### Endpoints
+
+- ``[POST] /`` - Executes a given query. The payload must be an object with required "text" and optional "params" fields.
+- ``[GET] /version`` - Returns a version of Chrome and Ferret.
+- ``[GET] /health`` - Health check endpoint (for Kubernetes, e.g.).
+
+### Run commands
 
 ```bash
   -chrome-ip string
