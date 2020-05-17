@@ -2,15 +2,16 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"os"
 
-	"github.com/MontFerret/worker/internal/server"
-	"github.com/MontFerret/worker/pkg/worker"
+	"github.com/namsral/flag"
 	"github.com/rs/zerolog/log"
 	"github.com/ziflex/waitfor/pkg/runner"
 	waitrunner "github.com/ziflex/waitfor/pkg/runner"
+
+	"github.com/MontFerret/worker/internal/server"
+	"github.com/MontFerret/worker/pkg/worker"
 )
 
 var (
