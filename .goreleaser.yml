@@ -39,7 +39,7 @@ dockers:
     binaries:
       - worker
     skip_push: false
-    dockerfile: Dockerfile
+    dockerfile: Dockerfile.release
     image_templates:
       - "montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
       - "montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}"
