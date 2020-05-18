@@ -41,6 +41,10 @@ And then just make a POST request:
 
 ![worker](https://raw.githubusercontent.com/MontFerret/worker/master/assets/postman.png)
 
+## System Resource Requirements
+- 2 CPU
+- 2 Gb of RAM
+
 ## Usage
 
 ### Endpoints
