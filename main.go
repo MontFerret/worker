@@ -17,6 +17,9 @@ import (
 var (
 	version string
 
+	// TODO: Inject during build process
+	ferretVersion string = "0.11.0"
+
 	port = flag.Uint64("port", 8080, "port to listen")
 
 	chromeIP = flag.String("chrome-ip", "127.0.0.1", "Google Chrome remote IP address")
@@ -64,7 +67,9 @@ func main() {
 	}
 
 	srv := server.New(server.Settings{
-		CDP: cdp,
+		Version:       version,
+		FerretVersion: ferretVersion,
+		CDP:           cdp,
 	})
 
 	err = srv.Run(*port)

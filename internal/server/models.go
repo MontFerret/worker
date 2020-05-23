@@ -19,6 +19,7 @@ type (
 	}
 
 	Version struct {
+		Worker string        `json:"worker"`
 		Chrome ChromeVersion `json:"chrome"`
 		Ferret string        `json:"ferret"`
 	}

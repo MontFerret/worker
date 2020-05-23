@@ -77,8 +77,9 @@ func (s *Server) version(ctx echo.Context) error {
 	return ctx.JSON(
 		http.StatusOK,
 		Version{
+			Worker: s.settings.Version,
+			Ferret: s.settings.FerretVersion,
 			Chrome: chromeVersion,
-			Ferret: "0.10.2",
 		},
 	)
 }
