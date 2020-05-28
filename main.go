@@ -66,11 +66,15 @@ func main() {
 			Msg("wait for Chrome")
 	}
 
-	srv := server.New(server.Settings{
+	srv, err := server.New(server.Settings{
 		Version:       version,
 		FerretVersion: ferretVersion,
 		CDP:           cdp,
 	})
+
+	if err != nil {
+		panic(err)
+	}
 
 	err = srv.Run(*port)
 

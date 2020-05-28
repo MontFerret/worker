@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/MontFerret/worker/pkg/worker"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 // Server is HTTP server that wraps Ferret worker.
@@ -16,13 +16,17 @@ type Server struct {
 	worker   *worker.Worker
 }
 
-func New(settings Settings) *Server {
-	worker, _ := worker.New(worker.WithCustomCDP(settings.CDP))
+func New(settings Settings) (*Server, error) {
+	worker, err := worker.New(worker.WithCustomCDP(settings.CDP))
+
+	if err != nil {
+		return nil, err
+	}
 
 	return &Server{
 		settings,
 		worker,
-	}
+	}, nil
 }
 
 // Run start server that serve at the given port.
