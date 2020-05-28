@@ -17,8 +17,7 @@ import (
 var (
 	version string
 
-	// TODO: Inject during build process
-	ferretVersion string = "0.11.0"
+	ferretVersion string = "0.11.1"
 
 	port = flag.Uint64("port", 8080, "port to listen")
 
@@ -29,7 +28,7 @@ var (
 	showVersion = flag.Bool(
 		"version",
 		false,
-		"show REPL version",
+		"show version",
 	)
 
 	help = flag.Bool(

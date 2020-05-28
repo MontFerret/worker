@@ -28,7 +28,7 @@
 The Worker is shipped with dedicated Docker image that contains headless Google Chrome, so feel free to run queries using `cdp` driver:
 
 ```.env
-docker run -p 8080:8080 -it montferret/worker
+docker run -p 8080:8080 -it montferret/worker:latest
 ```
 
 Alternatively, if you want to use your own version of Chrome, you can run the Worker locally:
@@ -49,9 +49,35 @@ And then just make a POST request:
 
 ### Endpoints
 
-- ``[POST] /`` - Executes a given query. The payload must be an object with required "text" and optional "params" fields.
-- ``[GET] /version`` - Returns a version of Chrome and Ferret.
-- ``[GET] /health`` - Health check endpoint (for Kubernetes, e.g.).
+#### POST /
+Executes a given query. The payload must have the following shape:
+
+```
+Query {
+    text: String!
+    params: Map<string, any>
+}
+```
+
+#### GET /version
+Returns a version information about Chrome, Ferret and itself. Has the following shape:
+
+```
+Version {
+    worker: String!
+    chrome: {
+        browser: String!
+        protocol: String!
+        v8: String!
+        webkit: String!
+    }
+    ferret: String!
+}
+```
+
+
+#### GET /health
+Health check endpoint (for Kubernetes, e.g.). Returns empty 200.
 
 ### Run commands
 
@@ -65,6 +91,6 @@ And then just make a POST request:
   -port uint
         port to listen (default 8080)
   -version
-        show REPL version
+        show version
 
 ```

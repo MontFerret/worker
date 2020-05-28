@@ -11,11 +11,18 @@ type (
 		worker.Query
 	}
 
-	ChromeVersion struct {
+	chromeVersionInternal struct {
 		Browser  string `json:"Browser"`
 		Protocol string `json:"Protocol-Version"`
 		V8       string `json:"V8-Version"`
 		WebKit   string `json:"WebKit-Version"`
+	}
+
+	ChromeVersion struct {
+		Browser  string `json:"browser"`
+		Protocol string `json:"protocol"`
+		V8       string `json:"v8"`
+		WebKit   string `json:"webkit"`
 	}
 
 	Version struct {

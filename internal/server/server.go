@@ -66,7 +66,7 @@ func (s *Server) version(ctx echo.Context) error {
 		)
 	}
 
-	chromeVersion := ChromeVersion{}
+	chromeVersion := chromeVersionInternal{}
 
 	err = json.Unmarshal(chromeVersionBlob, &chromeVersion)
 
@@ -83,7 +83,12 @@ func (s *Server) version(ctx echo.Context) error {
 		Version{
 			Worker: s.settings.Version,
 			Ferret: s.settings.FerretVersion,
-			Chrome: chromeVersion,
+			Chrome: ChromeVersion{
+				Browser:  chromeVersion.Browser,
+				Protocol: chromeVersion.Protocol,
+				V8:       chromeVersion.V8,
+				WebKit:   chromeVersion.WebKit,
+			},
 		},
 	)
 }
