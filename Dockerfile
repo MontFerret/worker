@@ -13,7 +13,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux make compile
 
 # Build the final container. And install
-FROM microbox/chromium-headless:75.0.3765.1 as runner
+FROM microbox/chromium-headless:83.0.4103.0 as runner
 
 RUN apt-get update && apt-get install -y dumb-init
 
