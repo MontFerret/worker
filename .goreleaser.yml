@@ -50,6 +50,14 @@ dockers:
       - "--label=org.opencontainers.image.name={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source={{.GitURL}}"
+      - "--label=com.github.actions.name={{.ProjectName}}"
+      - "--label=com.github.actions.description=Containerized Ferret worker"
+      - "--label=com.github.actions.icon=terminal"
+      - "--label=com.github.actions.color=blue"
+      - "--label=repository=http://github.com/MontFerret/worker"
+      - "--label=homepage=https://www.montferret.dev/"
+      - "--label=maintainer=Tim Voronov <ziflex@gmail.com>"
 
 checksum:
   name_template: '{{ .ProjectName }}_checksums.txt'
