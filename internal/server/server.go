@@ -3,6 +3,7 @@ package server
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/labstack/echo/v4/middleware"
 	"io/ioutil"
 	"net/http"
 
@@ -36,9 +37,23 @@ func (s *Server) Run(port uint64) error {
 	router := echo.New()
 	router.HideBanner = true
 
+	router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		Skipper:      middleware.DefaultSkipper,
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
+	router.Use(middleware.BodyLimit("1M"))
+	router.Use(middleware.RequestID())
+	router.Use(middleware.Logger())
+	router.Use(middleware.Recover())
+
 	router.POST("/", s.runScript)
 	router.GET("/version", s.version)
 	router.GET("/health", s.healthCheck)
+	router.Use(middleware.GzipWithConfig(middleware.GzipConfig{
+		Level: 5,
+	}))
 
 	return router.Start(fmt.Sprintf("0.0.0.0:%d", port))
 }
