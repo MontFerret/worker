@@ -1,5 +1,12 @@
 ## Changelog
 
+### 1.6.0
+#### Added
+- Request middlewares supporting CORS, body size limit and logging.
+
+#### Changed
+- Optimized Chromium in Docker in order to process heavy web pages
+
 ### 1.5.0
 #### Changed
 - Upgraded Ferret to 0.11.1
