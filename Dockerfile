@@ -28,4 +28,4 @@ COPY --from=builder /go/src/github.com/MontFerret/worker/bin/worker .
 EXPOSE 8080
 
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["/bin/sh", "-c", "chromium --disable-dev-shm-usage --force-gpu-mem-available-mb --full-memory-crash-report --no-sandbox --disable-setuid-sandbox --disable-gpu --headless --remote-debugging-port=9222 & ./worker"]
+CMD ["/bin/sh", "-c", "chromium --disable-dev-shm-usage --full-memory-crash-report --no-sandbox --disable-setuid-sandbox --disable-gpu --headless --remote-debugging-port=9222 & ./worker"]
