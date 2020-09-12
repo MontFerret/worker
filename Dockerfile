@@ -13,11 +13,9 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux make compile
 
 # Build the final container. And install
-FROM microbox/chromium-headless:83.0.4103.0 as runner
+FROM montferret/chromium:85.0.4182.0 as runner
 
 RUN apt-get update && apt-get install -y dumb-init
-
-WORKDIR /root
 
 # Add in certs
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.c
@@ -28,4 +26,4 @@ COPY --from=builder /go/src/github.com/MontFerret/worker/bin/worker .
 EXPOSE 8080
 
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["/bin/sh", "-c", "chromium --disable-dev-shm-usage --full-memory-crash-report --no-sandbox --disable-setuid-sandbox --disable-gpu --headless --remote-debugging-port=9222 & ./worker"]
+CMD ["/bin/sh", "-c", "./entrypoint.sh & ./worker"]
