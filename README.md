@@ -27,8 +27,13 @@
 
 The Worker is shipped with dedicated Docker image that contains headless Google Chrome, so feel free to run queries using `cdp` driver:
 
-```.env
-docker run -d -p 8080:8080 montferret/worker:latest
+DockerHub
+```sh
+docker run -d -p 8080:8080 montferret/worker
+```
+GitHub
+```sh
+docker run -d -p 8080:8080 ghcr.io/montferret/worker
 ```
 
 Alternatively, if you want to use your own version of Chrome, you can run the Worker locally:
