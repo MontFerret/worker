@@ -17,7 +17,7 @@ import (
 var (
 	version string
 
-	ferretVersion string = "0.11.1"
+	ferretVersion string
 
 	port = flag.Uint64("port", 8080, "port to listen")
 
@@ -48,7 +48,8 @@ func main() {
 	}
 
 	if *showVersion {
-		fmt.Println(version)
+		fmt.Println(fmt.Sprintf("Worker: %s", version))
+		fmt.Println(fmt.Sprintf("Ferret: %s", ferretVersion))
 		os.Exit(0)
 		return
 	}
