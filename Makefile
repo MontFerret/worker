@@ -9,6 +9,9 @@ compile:
 	-ldflags "-X main.version=${VERSION} -X main.ferretVersion=${FERRET_VERSION}" \
 	./main.go
 
+test:
+	go test ./
+
 start:
 	./bin/worker
 
