@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"io/ioutil"
 	"net/http"
+	"bytes"
 
 	"github.com/MontFerret/worker/pkg/worker"
 	"github.com/labstack/echo/v4"
@@ -51,6 +52,7 @@ func (s *Server) Run(port uint64) error {
 	router.POST("/", s.runScript)
 	router.GET("/version", s.version)
 	router.GET("/health", s.healthCheck)
+	router.GET("/ip", s.ip)
 	router.Use(middleware.GzipWithConfig(middleware.GzipConfig{
 		Level: 5,
 	}))
@@ -124,6 +126,25 @@ func (s *Server) healthCheck(ctx echo.Context) error {
 	return ctx.NoContent(http.StatusOK)
 }
 
+func (s *Server) ip(ctx echo.Context) error {
+	ip, err := getIp()
+
+	if err != nil {
+		ctx.Logger().Error("Failed to get external ip address", err)
+
+		return ctx.NoContent(
+			http.StatusInternalServerError,
+		)
+	}
+
+	return ctx.JSON(
+		http.StatusOK,
+		Ip{
+			Ip: ip,
+		},
+	)
+}
+
 func (s *Server) runScript(ctx echo.Context) error {
 	reqctx := ctx.Request().Context()
 
@@ -149,4 +170,17 @@ func (s *Server) runScript(ctx echo.Context) error {
 	}
 
 	return ctx.JSONBlob(http.StatusOK, out.Raw)
+}
+
+ func getIp() (string, error) {
+	rsp, err := http.Get("http://checkip.amazonaws.com")
+	if err != nil {
+		return "", err
+	}
+	defer rsp.Body.Close()
+	buf, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return "", err
+	}
+	return string(bytes.TrimSpace(buf)), nil
 }
