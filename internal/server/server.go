@@ -1,12 +1,12 @@
 package server
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/labstack/echo/v4/middleware"
 	"io/ioutil"
 	"net/http"
-	"bytes"
 
 	"github.com/MontFerret/worker/pkg/worker"
 	"github.com/labstack/echo/v4"
@@ -172,7 +172,7 @@ func (s *Server) runScript(ctx echo.Context) error {
 	return ctx.JSONBlob(http.StatusOK, out.Raw)
 }
 
- func getIp() (string, error) {
+func getIp() (string, error) {
 	rsp, err := http.Get("http://checkip.amazonaws.com")
 	if err != nil {
 		return "", err

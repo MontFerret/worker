@@ -32,6 +32,6 @@ type (
 	}
 
 	Ip struct {
-		Ip string            `json:"ip"`
+		Ip string `json:"ip"`
 	}
 )
