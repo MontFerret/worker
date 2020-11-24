@@ -64,19 +64,22 @@ Query {
 }
 ```
 
-#### GET /version
-Returns a version information about Chrome, Ferret and itself. Has the following shape:
+#### GET /info
+Returns a worker information that contains details about Chrome, Ferret and itself. Has the following shape:
 
 ```
-Version {
-    worker: String!
-    chrome: {
-        browser: String!
-        protocol: String!
-        v8: String!
-        webkit: String!
+Info {
+    ip: String!
+    version: Version! {
+        worker: String!
+        chrome: ChromeVersion! {
+            browser: String!
+            protocol: String!
+            v8: String!
+            webkit: String!
+        }
+        ferret: String!
     }
-    ferret: String!
 }
 ```
 
