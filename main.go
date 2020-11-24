@@ -10,6 +10,7 @@ import (
 	"github.com/ziflex/waitfor/pkg/runner"
 	waitrunner "github.com/ziflex/waitfor/pkg/runner"
 
+	"github.com/MontFerret/worker/internal/controllers"
 	"github.com/MontFerret/worker/internal/server"
 	"github.com/MontFerret/worker/pkg/worker"
 )
@@ -58,21 +59,20 @@ func main() {
 		Host: *chromeIP,
 		Port: *chromeDebuggingPort,
 	}
-	err := waitForChrome(cdp)
 
-	if err != nil {
+	if err := waitForChrome(cdp); err != nil {
 		log.Fatal().
 			Err(err).
 			Msg("wait for Chrome")
 	}
 
-	srv, err := server.New(server.Settings{
-		Version:       version,
-		FerretVersion: ferretVersion,
-		CDP:           cdp,
-	})
+	srv, err := server.New()
 
 	if err != nil {
+		panic(err)
+	}
+
+	if err := setupControllers(srv, cdp); err != nil {
 		panic(err)
 	}
 
@@ -87,4 +87,36 @@ func waitForChrome(cdp worker.CDPSettings) error {
 	return waitrunner.Test(context.Background(), []string{
 		cdp.BaseURL(),
 	}, runner.WithAttempts(10))
+}
+
+func setupControllers(server *server.Server, cdp worker.CDPSettings) error {
+	workerCtl, err := controllers.NewWorker(cdp)
+
+	if err != nil {
+		return err
+	}
+
+	workerCtl.Use(server.Router())
+
+	healthCtl, err := controllers.NewHealth(cdp)
+
+	if err != nil {
+		return err
+	}
+
+	healthCtl.Use(server.Router())
+
+	infoCtl, err := controllers.NewInfo(controllers.InfoSettings{
+		Version:       version,
+		FerretVersion: ferretVersion,
+		CDP:           cdp,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	infoCtl.Use(server.Router())
+
+	return nil
 }
