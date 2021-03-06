@@ -1,5 +1,22 @@
 ## Changelog
 
+### 1.9.0
+#### Changed
+- Upgraded Ferret to v0.14.0
+- Upgraded Echo to v4.2.0
+- Upgraded Chromium to v90.0.4427.0
+
+### 1.8.1
+#### Fixed
+- Dockerfile for auto-releases
+
+### 1.8.0
+#### Added
+- /info (#13)
+
+#### Changed
+- Upgraded Ferret to v0.13.0
+
 ### 1.6.0
 #### Added
 - Request middlewares supporting CORS, body size limit and logging.
