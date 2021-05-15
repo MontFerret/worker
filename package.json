@@ -1,0 +1,81 @@
+{
+  "name": "@pierrebrisorgueil/mitmheadless",
+  "description": "Docker to hide chrome headless by an mitm proxy",
+  "version": "0.0.1",
+  "keywords": [
+    "mitm",
+    "headless",
+    "docker"
+  ],
+  "private": false,
+  "author": "https://github.com/weareopensource/Node/graphs/contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PierreBrisorgueil/mitmheadless"
+  },
+  "engines": {
+    "node": ">=14",
+    "npm": ">=6.14",
+    "yarn": ">=1.22"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/webpack ",
+    "lint": "./node_modules/.bin/eslint --fix ./modules ./lib ./config ./scripts",
+    "commit": "npx cz",
+    "release": "standard-version",
+    "release:auto": "npx semantic-release"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@weareopensource/conventional-changelog": "^1.7.0",
+    "commitizen": "^4.2.3",
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-markdown": "^2.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
+    "prettier": "^2.2.1",
+    "semantic-release": "^17.4.2",
+    "standard-version": "^9.2.0",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0"
+  },
+  "release": {
+    "branches": [
+      {
+        "name": "master"
+      }
+    ],
+    "ci": false,
+    "repositoryUrl": "https://github.com/PierreBrisorgueil/mitmheadless",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      [
+        "@semantic-release/github",
+        {
+          "successComment": false,
+          "failComment": false
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "message": "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/@weareopensource/conventional-changelog"
+    }
+  }
+}
