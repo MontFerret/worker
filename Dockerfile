@@ -1,4 +1,5 @@
 # GO Builder
+###############
 FROM golang:alpine AS goBuilder
 
 RUN apk update && apk add --no-cache git make ca-certificates
@@ -7,29 +8,24 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux make compile
 
-# JS Builder
-FROM node:lts-alpine AS jsBuilder
-
-COPY package*.json ./
-RUN npm install
-COPY . .
-
-RUN npm run build
+# MITM Builder
+###############
+FROM pierrebrisorgueil/mitm:latest AS mitmBuilder
 
 # Runner
+###############
 FROM montferret/chromium:91.0.4469.0 as runner
 RUN apt-get update && apt-get install -y dumb-init
 
-RUN apt-get update && \
-    apt-get install --no-install-recommends -y \
-    python3.8 python3-pip python3.8-dev
+# mitm
+RUN apt-get update && apt-get install --no-install-recommends -y python3.8 python3-pip python3.8-dev
 RUN pip install mitmproxy bs4 lxml
+COPY --from=mitmBuilder bundle.js /
+COPY --from=mitmBuilder inject.py /
 
-
-COPY --from=jsBuilder dist/* /
+# worker
 COPY --from=goBuilder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.c
 COPY --from=goBuilder /go/src/github.com/MontFerret/worker/bin/worker .
-COPY inject.py /
 
 EXPOSE 8080
 
