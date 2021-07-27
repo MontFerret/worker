@@ -6,7 +6,8 @@ import (
 	"os"
 
 	"github.com/namsral/flag"
-	"github.com/rs/zerolog/log"
+	"github.com/rs/zerolog"
+	"github.com/ziflex/lecho/v2"
 	"github.com/ziflex/waitfor/pkg/runner"
 	waitrunner "github.com/ziflex/waitfor/pkg/runner"
 
@@ -25,6 +26,12 @@ var (
 	chromeIP = flag.String("chrome-ip", "127.0.0.1", "Google Chrome remote IP address")
 
 	chromeDebuggingPort = flag.Uint64("chrome-port", 9222, "Google Chrome remote debugging port")
+
+	logLevel = flag.String(
+		"log-level",
+		zerolog.DebugLevel.String(),
+		"log level",
+	)
 
 	showVersion = flag.Bool(
 		"version",
@@ -45,15 +52,27 @@ func main() {
 	if *help {
 		flag.PrintDefaults()
 		os.Exit(0)
-		return
 	}
 
 	if *showVersion {
 		fmt.Println(fmt.Sprintf("Worker: %s", version))
 		fmt.Println(fmt.Sprintf("Ferret: %s", ferretVersion))
 		os.Exit(0)
-		return
 	}
+
+	z, err := zerolog.ParseLevel(*logLevel)
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	level, _ := lecho.MatchZeroLevel(z)
+	logger := lecho.New(
+		os.Stdout,
+		lecho.WithTimestamp(),
+		lecho.WithLevel(level),
+	)
 
 	cdp := worker.CDPSettings{
 		Host: *chromeIP,
@@ -61,26 +80,22 @@ func main() {
 	}
 
 	if err := waitForChrome(cdp); err != nil {
-		log.Fatal().
-			Err(err).
-			Msg("wait for Chrome")
+		logger.Fatalf("wait for Chrome: %s", err)
 	}
 
-	srv, err := server.New()
+	srv, err := server.New(logger)
 
 	if err != nil {
-		panic(err)
+		logger.Fatal(err)
 	}
 
 	if err := setupControllers(srv, cdp); err != nil {
-		panic(err)
+		logger.Fatal(err)
 	}
 
-	err = srv.Run(*port)
-
-	log.Err(err).
-		Timestamp().
-		Msg("listen and server")
+	if err := srv.Run(*port); err != nil {
+		logger.Fatal(err)
+	}
 }
 
 func waitForChrome(cdp worker.CDPSettings) error {
