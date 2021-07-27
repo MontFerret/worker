@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/pkg/errors"
 
 	"github.com/MontFerret/worker/pkg/worker"
 )
@@ -20,14 +19,8 @@ type (
 	}
 )
 
-func NewWorker(settings worker.CDPSettings) (*Worker, error) {
-	w, err := worker.New(worker.WithCustomCDP(settings))
-
-	if err != nil {
-		return nil, errors.Wrap(err, "create a worker instance")
-	}
-
-	return &Worker{w}, nil
+func NewWorker(worker *worker.Worker) (*Worker, error) {
+	return &Worker{worker}, nil
 }
 
 func (c *Worker) Use(e *echo.Echo) {

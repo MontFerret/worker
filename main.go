@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/namsral/flag"
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 	"github.com/ziflex/lecho/v2"
 	"github.com/ziflex/waitfor/pkg/runner"
@@ -13,6 +14,8 @@ import (
 
 	"github.com/MontFerret/worker/internal/controllers"
 	"github.com/MontFerret/worker/internal/server"
+	"github.com/MontFerret/worker/internal/storage"
+	"github.com/MontFerret/worker/pkg/caching"
 	"github.com/MontFerret/worker/pkg/worker"
 )
 
@@ -31,6 +34,12 @@ var (
 		"log-level",
 		zerolog.DebugLevel.String(),
 		"log level",
+	)
+
+	cacheSize = flag.Uint(
+		"cache-size",
+		100,
+		"amount of cached queries. 0 means no caching.",
 	)
 
 	showVersion = flag.Bool(
@@ -89,7 +98,22 @@ func main() {
 		logger.Fatal(err)
 	}
 
-	if err := setupControllers(srv, cdp); err != nil {
+	cache, err := storage.NewCache(caching.WithSize(*cacheSize))
+
+	if err != nil {
+		logger.Fatal(errors.Wrap(err, "create cache storage"))
+	}
+
+	wkr, err := worker.New(
+		worker.WithCustomCDP(cdp),
+		worker.WithCache(cache),
+	)
+
+	if err != nil {
+		logger.Fatal(errors.Wrap(err, "create a worker instance"))
+	}
+
+	if err := setupControllers(srv, cdp, wkr); err != nil {
 		logger.Fatal(err)
 	}
 
@@ -104,8 +128,8 @@ func waitForChrome(cdp worker.CDPSettings) error {
 	}, runner.WithAttempts(10))
 }
 
-func setupControllers(server *server.Server, cdp worker.CDPSettings) error {
-	workerCtl, err := controllers.NewWorker(cdp)
+func setupControllers(server *server.Server, cdp worker.CDPSettings, worker *worker.Worker) error {
+	workerCtl, err := controllers.NewWorker(worker)
 
 	if err != nil {
 		return err

@@ -87,15 +87,19 @@ Health check endpoint (for Kubernetes, e.g.). Returns empty 200.
 ### Run commands
 
 ```bash
+  -cache-size uint
+        amount of cached queries. 0 means no caching (default 100)
   -chrome-ip string
         Google Chrome remote IP address (default "127.0.0.1")
   -chrome-port uint
         Google Chrome remote debugging port (default 9222)
-  -help
-        show this list
+  -log-level string
+        log level (default "debug")
   -port uint
         port to listen (default 8080)
   -version
         show version
+  -help
+        show this list
 
 ```

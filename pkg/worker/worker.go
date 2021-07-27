@@ -9,12 +9,15 @@ import (
 	"github.com/MontFerret/ferret/pkg/drivers/http"
 	"github.com/MontFerret/ferret/pkg/runtime"
 	"github.com/pkg/errors"
+
+	"github.com/MontFerret/worker/pkg/caching"
 )
 
 // Worker accepts FQL-script, run it and return result.
 type Worker struct {
 	comp    *compiler.Compiler
 	drivers []drivers.Driver
+	cache   caching.Cache
 }
 
 // New returns Worker without file system access.
@@ -47,6 +50,7 @@ func New(setters ...Option) (*Worker, error) {
 			),
 			http.NewDriver(),
 		},
+		cache: opts.cache,
 	}, nil
 }
 
@@ -55,7 +59,7 @@ func (w *Worker) DoQuery(ctx context.Context, query Query) (Result, error) {
 		return Result{}, errors.New("missed query text")
 	}
 
-	program, err := w.comp.Compile(query.Text)
+	program, err := w.compiledOrCached(query.Text)
 
 	if err != nil {
 		return Result{}, errors.Wrap(err, "compile query")
@@ -74,4 +78,32 @@ func (w *Worker) DoQuery(ctx context.Context, query Query) (Result, error) {
 	return Result{
 		Raw: r,
 	}, nil
+}
+
+func (w *Worker) compiledOrCached(text string) (*runtime.Program, error) {
+	var program *runtime.Program
+
+	if w.cache != nil {
+		found, isFound := w.cache.Get(text)
+
+		if isFound && found != nil {
+			program = found.(*runtime.Program)
+		}
+	}
+
+	if program == nil {
+		compiled, err := w.comp.Compile(text)
+
+		if err != nil {
+			return nil, errors.Wrap(err, "compile")
+		}
+
+		program = compiled
+	}
+
+	if w.cache != nil {
+		w.cache.Set(text, program)
+	}
+
+	return program, nil
 }
