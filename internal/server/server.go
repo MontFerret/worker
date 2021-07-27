@@ -2,10 +2,10 @@ package server
 
 import (
 	"fmt"
-	"net/http"
-
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/ziflex/lecho/v2"
+	"net/http"
 )
 
 // Server is HTTP server that wraps Ferret worker.
@@ -13,8 +13,9 @@ type Server struct {
 	router *echo.Echo
 }
 
-func New() (*Server, error) {
+func New(logger *lecho.Logger) (*Server, error) {
 	router := echo.New()
+	router.Logger = logger
 	router.HideBanner = true
 
 	router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -25,7 +26,9 @@ func New() (*Server, error) {
 	}))
 	router.Use(middleware.BodyLimit("1M"))
 	router.Use(middleware.RequestID())
-	router.Use(middleware.Logger())
+	router.Use(lecho.Middleware(lecho.Config{
+		Logger: logger,
+	}))
 	router.Use(middleware.Recover())
 	router.Use(middleware.GzipWithConfig(middleware.GzipConfig{
 		Level: 5,
