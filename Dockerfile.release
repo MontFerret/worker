@@ -1,4 +1,4 @@
-FROM montferret/chromium:91.0.4469.0
+FROM montferret/chromium:93.0.4577.0
 
 RUN apt-get update && apt-get install -y dumb-init ca-certificates
 
