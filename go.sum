@@ -2,8 +2,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/Masterminds/glide v0.13.2/go.mod h1:STyF5vcenH/rUqTEv+/hBXlSTo7KYwg2oc2f4tzPWic=
 github.com/Masterminds/semver v1.4.2/go.mod h1:MB6lktGJrhw8PrUyiEoblNEGEQ+RzHPF078ddwwvV3Y=
 github.com/Masterminds/vcs v1.13.0/go.mod h1:N09YCmOQr6RLxC6UNHzuVwAdodYbbnycGHSmwVJjcKA=
-github.com/MontFerret/ferret v0.16.0 h1:CFaBE0YjB3ovCUooZLwly3pJi/IQ5Z1pGK0ORFBof5Y=
-github.com/MontFerret/ferret v0.16.0/go.mod h1:sYdL9nEVhCx+pfH2M5uQOiZtRteoURm0+VM7BurNHQw=
+github.com/MontFerret/ferret v0.16.1 h1:+f4soLtIdV7XTSkKiGwhzemH/WfDbsimJzC9Cg0I/Gk=
+github.com/MontFerret/ferret v0.16.1/go.mod h1:sYdL9nEVhCx+pfH2M5uQOiZtRteoURm0+VM7BurNHQw=
 github.com/PuerkitoBio/goquery v1.8.0 h1:PJTF7AmFCFKk1N6V6jmKfrNH9tV5pNE6lZMkG0gta/U=
 github.com/PuerkitoBio/goquery v1.8.0/go.mod h1:ypIiRMtY7COPGk+I/YbZLbxsxn9g5ejnI2HSMtkjZvI=
 github.com/andybalholm/cascadia v1.3.1 h1:nhxRkql1kdYCc8Snf7D5/D3spOX+dBgjA6u8x004T2c=
