@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/go-waitfor/waitfor"
+	"github.com/go-waitfor/waitfor-http"
 	"github.com/namsral/flag"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
-	"github.com/ziflex/lecho/v2"
-	"github.com/ziflex/waitfor/pkg/runner"
-	waitrunner "github.com/ziflex/waitfor/pkg/runner"
+	"github.com/ziflex/lecho/v3"
 
 	"github.com/MontFerret/worker/internal/controllers"
 	"github.com/MontFerret/worker/internal/server"
@@ -123,9 +123,11 @@ func main() {
 }
 
 func waitForChrome(cdp worker.CDPSettings) error {
-	return waitrunner.Test(context.Background(), []string{
+	runner := waitfor.New(http.Use())
+
+	return runner.Test(context.Background(), []string{
 		cdp.BaseURL(),
-	}, runner.WithAttempts(10))
+	}, waitfor.WithAttempts(10))
 }
 
 func setupControllers(server *server.Server, cdp worker.CDPSettings, worker *worker.Worker) error {
