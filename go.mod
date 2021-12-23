@@ -3,14 +3,14 @@ module github.com/MontFerret/worker
 go 1.17
 
 require (
-	github.com/MontFerret/ferret v0.16.2
+	github.com/MontFerret/ferret v0.16.3
 	github.com/go-waitfor/waitfor v1.0.0
 	github.com/go-waitfor/waitfor-http v1.0.0
 	github.com/hashicorp/golang-lru v0.5.4
 	github.com/labstack/echo/v4 v4.6.1
 	github.com/namsral/flag v1.7.4-pre
 	github.com/pkg/errors v0.9.1
-	github.com/rs/zerolog v1.26.0
+	github.com/rs/zerolog v1.26.1
 	github.com/ziflex/lecho/v3 v3.1.0
 )
 
@@ -35,7 +35,7 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	github.com/wI2L/jettison v0.7.3 // indirect
-	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
+	golang.org/x/crypto v0.0.0-20211215165025-cf75a172585e // indirect
 	golang.org/x/net v0.0.0-20211209124913-491a49abca63 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20211103235746-7861aae1554b // indirect
