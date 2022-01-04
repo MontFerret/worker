@@ -3,7 +3,7 @@ module github.com/MontFerret/worker
 go 1.17
 
 require (
-	github.com/MontFerret/ferret v0.16.3
+	github.com/MontFerret/ferret v0.16.4
 	github.com/go-waitfor/waitfor v1.0.0
 	github.com/go-waitfor/waitfor-http v1.0.0
 	github.com/hashicorp/golang-lru v0.5.4

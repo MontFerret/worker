@@ -33,7 +33,16 @@ GitHub
 docker run -d -p 8080:8080 ghcr.io/montferret/worker
 ```
 
-Alternatively, if you want to use your own version of Chrome, you can run the Worker locally:
+Alternatively, if you want to use your own version of Chrome, you can run the Worker locally.
+
+By installing the binary:
+
+```shell
+curl https://raw.githubusercontent.com/MontFerret/cli/master/install.sh | sh
+worker
+```
+
+Or by building locally:
 
 ```sh
 make

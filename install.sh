@@ -1,50 +1,26 @@
 #!/bin/bash
 
+projectName="worker"
+binName="worker"
+name="Ferret Worker"
 defaultLocation="/usr/local/bin"
 defaultVersion="latest"
-location=${WORKER_LOCATION:-$defaultLocation}
-version=${WORKER_VERSION:-$defaultVersion}
+location=${LOCATION:-$defaultLocation}
+version=${VERSION:-$defaultVersion}
 
-echo "Installing location $location"
 # Copyright MontFerret Team 2020
-version=$(curl -sI https://github.com/MontFerret/worker/releases/latest | grep location | awk -F"/" '{ printf "%s", $NF }' | tr -d '\r')
+version=$(curl -sI https://github.com/MontFerret/$projectName/releases/latest | awk '{print tolower($0)}' | grep location: | awk -F"/" '{ printf "%s", $NF }' | tr -d '\r')
+echo "Installing $name $version to $location"
 
 if [ ! $version ]; then
-    echo "Failed while attempting to install ferret-worker. Please manually install:"
+    echo "Failed while attempting to install $name. Please manually install:"
     echo ""
-    echo "1. Open your web browser and go to https://github.com/MontFerret/worker/releases"
+    echo "1. Open your web browser and go to https://github.com/MontFerret/$projectName/releases"
     echo "2. Download the latest release for your platform."
-    echo "3. chmod +x ./ferret-worker"
-    echo "4. mv ./ferret-worker $location"
+    echo "3. chmod +x ./$projectName"
+    echo "4. mv ./$projectName $location"
     exit 1
 fi
-
-hasCli() {
-    has=$(which ferret-worker)
-
-    if [ "$?" = "0" ]; then
-        echo
-        echo "You already have the ferret-worker!"
-        export n=5
-        echo "Overwriting in $n seconds... Press Control+C to cancel."
-        echo
-        sleep $n
-    fi
-
-    hasCurl=$(which curl)
-
-    if [ "$?" = "1" ]; then
-        echo "You need curl to use this script."
-        exit 1
-    fi
-
-    hasTar=$(which tar)
-
-    if [ "$?" = "1" ]; then
-        echo "You need tar to use this script."
-        exit 1
-    fi
-}
 
 checkHash(){
     sha_cmd="sha256sum"
@@ -55,7 +31,7 @@ checkHash(){
 
     if [ -x "$(command -v $sha_cmd)" ]; then
 
-    (cd $targetDir && curl -sSL $baseUrl/worker_checksums.txt | $sha_cmd -c >/dev/null)
+    (cd $targetDir && curl -sSL $baseUrl/$projectName_checksums.txt | $sha_cmd -c >/dev/null)
         if [ "$?" != "0" ]; then
             # rm $targetFile
             echo "Binary checksum didn't match. Exiting"
@@ -66,7 +42,6 @@ checkHash(){
 
 getPackage() {
     uname=$(uname)
-    userid=$(id -u)
 
     platform=""
     case $uname in
@@ -97,17 +72,13 @@ getPackage() {
     fi
 
     suffix=$platform$arch
-    targetDir="/tmp/worker$suffix"
-
-    if [ "$userid" != "0" ]; then
-        targetDir="$(pwd)/worker$suffix"
-    fi
+    targetDir="/tmp/$projectName$suffix"
 
     if [ ! -d $targetDir ]; then
         mkdir $targetDir
     fi
 
-    targetFile="$targetDir/worker"
+    targetFile="$targetDir/$binName"
 
     if [ -e $targetFile ]; then
         rm $targetFile
@@ -115,31 +86,15 @@ getPackage() {
 
     echo
 
-    if [ $location = $defaultLocation ]; then
-        if [ "$userid" != "0" ]; then
-            echo
-            echo "========================================================="
-            echo "==    As the script was run as a non-root user the     =="
-            echo "==    following commands may need to be run manually   =="
-            echo "========================================================="
-            echo
-            echo "  sudo cp $targetFile $location/ferret-worker"
-            echo "  rm -rf $targetDir"
-            echo
-
-            exit 1
-        fi
-    fi
-
     if [ ! -d $location ]; then
         mkdir $location
     fi
 
-    baseUrl=https://github.com/MontFerret/worker/releases/download/$version
-    url=$baseUrl/worker$suffix.tar.gz
+    baseUrl=https://github.com/MontFerret/$projectName/releases/download/$version
+    url=$baseUrl/$projectName$suffix.tar.gz
     echo "Downloading package $url as $targetFile"
 
-    curl -sSL $url | tar xz -C $targetDir
+    curl -sSL $url
 
     if [ "$?" != "0" ]; then
         echo "Failed to download file"
@@ -150,22 +105,30 @@ getPackage() {
 
     chmod +x $targetFile
 
-    echo "Download complete."
-    echo
-    echo "Attempting to move $targetFile to $location"
+    echo "Download complete"
+    echo "Unpacking the archive..."
 
-    mv $targetFile "$location/ferret-worker"
+    tar xz -C $targetDir
+
+    if [ "$?" != "0" ]; then
+        echo "Failed to unpack the archive"
+        exit 1
+    fi
+
+    echo
+    echo "Attempting to move $targetFile to ${location}..."
+
+    mv $targetFile "$location/$binName"
 
     if [ "$?" = "0" ]; then
-        echo "New version of ferret-worker installed to $location"
+        echo "New version of $name installed to $location"
     fi
 
     if [ -d $targetDir ]; then
         rm -rf $targetDir
     fi
 
-    "$location/ferret-worker" --version
+    "$location/$binName" version
 }
 
-hasCli
 getPackage
