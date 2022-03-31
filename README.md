@@ -19,6 +19,7 @@
 </p>
 
 **Worker** is a simple HTTP server that accepts FQL queries, executes them and returns their results.
+OpenAPI v2 schema can be found [here](https://raw.githubusercontent.com/MontFerret/cli/master/reference/ferret-worker.yaml).
 
 ## Quick start
 
@@ -38,7 +39,7 @@ Alternatively, if you want to use your own version of Chrome, you can run the Wo
 By installing the binary:
 
 ```shell
-curl https://raw.githubusercontent.com/MontFerret/cli/master/install.sh | sh
+curl https://raw.githubusercontent.com/MontFerret/worker/master/install.sh | sh
 worker
 ```
 

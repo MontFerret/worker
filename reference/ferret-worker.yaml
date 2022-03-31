@@ -1,0 +1,138 @@
+swagger: '2.0'
+info:
+  title: ferret-worker
+  version: 1.18.0
+  description: Ferret worker API
+  contact:
+    name: MontFerret Team
+    url: 'https://github.com/MontFerret'
+    email: mont.ferret@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'https://raw.githubusercontent.com/MontFerret/worker/master/LICENSE'
+host: 'localhost:3000'
+schemes:
+  - http
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /health:
+    parameters: []
+    get:
+      summary: Get Worker Health
+      tags: []
+      operationId: get-health
+      description: Retrieve the health information of the service.
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties: {}
+        '424':
+          description: Failed Dependency
+          schema:
+            type: object
+            properties: {}
+  /info:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Info'
+        '500':
+          description: Internal Server Error
+          schema:
+            type: object
+            properties: {}
+      operationId: get-info
+      description: Retrieve worker info.
+  /:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-execute
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/QueryResult'
+      description: Execute a query.
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Query'
+definitions:
+  Info:
+    title: Info
+    type: object
+    properties:
+      ip:
+        type: string
+      version:
+        $ref: '#/definitions/Version'
+    required:
+      - ip
+      - version
+  Version:
+    title: Version
+    type: object
+    properties:
+      worker:
+        type: string
+      ferret:
+        type: string
+      chrome:
+        $ref: '#/definitions/ChromeVersion'
+    required:
+      - worker
+      - ferret
+      - chrome
+  ChromeVersion:
+    title: ChromeVersion
+    type: object
+    description: Chrome version info
+    properties:
+      browser:
+        type: string
+      protocol:
+        type: string
+      v8:
+        type: string
+      webkit:
+        type: string
+    required:
+      - browser
+      - protocol
+      - v8
+      - webkit
+  Query:
+    title: Query
+    type: object
+    properties:
+      text:
+        type: string
+      params:
+        type: object
+    required:
+      - text
+  QueryResult:
+    title: Result
+    anyOf:
+      - type: object
+      - type: array
+        items: {}
+      - type: string
+        properties: {}
+      - type: number
+        properties: {}
+      - type: boolean
+        properties: {}
+      - properties: {}
+        x-nullable: true
