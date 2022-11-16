@@ -110,3 +110,4 @@ bin
 *.orig
 dist
 coverage.txt
+.private

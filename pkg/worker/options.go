@@ -3,6 +3,7 @@ package worker
 import (
 	"fmt"
 
+	"github.com/MontFerret/ferret/pkg/runtime"
 	"github.com/MontFerret/ferret/pkg/runtime/core"
 	"github.com/MontFerret/worker/pkg/caching"
 )
@@ -17,7 +18,7 @@ type (
 		functions []core.Functions
 		noStdlib  bool
 		cdp       CDPSettings
-		cache     caching.Cache
+		cache     caching.Cache[*runtime.Program]
 	}
 
 	Option func(opts *Options)
@@ -59,7 +60,7 @@ func WithCustomCDP(cdp CDPSettings) Option {
 	}
 }
 
-func WithCache(cache caching.Cache) Option {
+func WithCache(cache caching.Cache[*runtime.Program]) Option {
 	return func(opts *Options) {
 		opts.cache = cache
 	}
