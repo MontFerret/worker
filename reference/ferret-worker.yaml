@@ -62,6 +62,14 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/QueryResult'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
       description: Execute a query.
       parameters:
         - in: body
@@ -124,15 +132,19 @@ definitions:
       - text
   QueryResult:
     title: Result
-    anyOf:
-      - type: object
-      - type: array
-        items: {}
-      - type: string
-        properties: {}
-      - type: number
-        properties: {}
-      - type: boolean
-        properties: {}
-      - properties: {}
-        x-nullable: true
+    type:
+      - object
+      - string
+      - number
+      - integer
+      - boolean
+      - array
+    x-nullable: true
+  Error:
+    title: Error
+    type: object
+    properties:
+      error:
+        type: string
+    required:
+      - error

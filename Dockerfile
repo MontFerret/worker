@@ -1,4 +1,4 @@
-FROM golang:alpine AS builder
+FROM golang:1.19-alpine AS builder
 
 # Install git.
 # Git is required for fetching the dependencies.
@@ -13,7 +13,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux make compile
 
 # Build the final container. And install
-FROM montferret/chromium:99.0.4844.0 as runner
+FROM montferret/chromium:106.0.5249.0 as runner
 
 RUN apt-get update && apt-get install -y dumb-init
 

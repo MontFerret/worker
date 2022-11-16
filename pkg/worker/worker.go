@@ -17,7 +17,7 @@ import (
 type Worker struct {
 	comp    *compiler.Compiler
 	drivers []drivers.Driver
-	cache   caching.Cache
+	cache   caching.Cache[*runtime.Program]
 }
 
 // New returns Worker without file system access.
@@ -87,7 +87,7 @@ func (w *Worker) compiledOrCached(text string) (*runtime.Program, error) {
 		found, isFound := w.cache.Get(text)
 
 		if isFound && found != nil {
-			program = found.(*runtime.Program)
+			program = found
 		}
 	}
 

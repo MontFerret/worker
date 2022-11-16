@@ -1,9 +1,9 @@
 package caching
 
-type Cache interface {
-	Set(key, value interface{})
+type Cache[T any] interface {
+	Set(key string, value T)
 
-	Get(key interface{}) (interface{}, bool)
+	Get(key string) (T, bool)
 
-	Contains(key interface{}) bool
+	Contains(key string) bool
 }
