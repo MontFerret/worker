@@ -3,7 +3,7 @@ module github.com/MontFerret/worker
 go 1.19
 
 require (
-	github.com/MontFerret/ferret v0.16.7
+	github.com/MontFerret/ferret v0.16.2
 	github.com/go-waitfor/waitfor v1.0.0
 	github.com/go-waitfor/waitfor-http v1.0.0
 	github.com/hashicorp/golang-lru/v2 v2.0.1
@@ -36,9 +36,9 @@ require (
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	github.com/wI2L/jettison v0.7.4 // indirect
 	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
-	golang.org/x/net v0.0.0-20211209124913-491a49abca63 // indirect
+	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220318055525-2edf467146b5 // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/text v0.7.0 // indirect
 	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324 // indirect
 )
