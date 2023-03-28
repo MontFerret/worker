@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 
-	"github.com/MontFerret/worker/pkg/worker"
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
+
+	"github.com/MontFerret/worker/pkg/worker"
 )
 
 type (
@@ -34,7 +35,7 @@ type (
 	}
 
 	InfoDto struct {
-		Ip      string     `json:"ip"`
+		IP      string     `json:"ip"`
 		Version VersionDto `json:"version"`
 	}
 
@@ -78,7 +79,7 @@ func (c *Info) Use(e *echo.Echo) {
 		return ctx.JSON(
 			http.StatusOK,
 			InfoDto{
-				Ip:      ip,
+				IP:      ip,
 				Version: version,
 			},
 		)
@@ -94,7 +95,7 @@ func (c *Info) version(_ context.Context) (VersionDto, error) {
 
 	defer chromeVersionResp.Body.Close()
 
-	chromeVersionBlob, err := ioutil.ReadAll(chromeVersionResp.Body)
+	chromeVersionBlob, err := io.ReadAll(chromeVersionResp.Body)
 
 	if err != nil {
 		return VersionDto{}, errors.Wrap(err, "read response from Chrome")
@@ -111,12 +112,7 @@ func (c *Info) version(_ context.Context) (VersionDto, error) {
 	return VersionDto{
 		Worker: c.settings.Version,
 		Ferret: c.settings.FerretVersion,
-		Chrome: ChromeVersionDto{
-			Browser:  chromeVersion.Browser,
-			Protocol: chromeVersion.Protocol,
-			V8:       chromeVersion.V8,
-			WebKit:   chromeVersion.WebKit,
-		},
+		Chrome: ChromeVersionDto(chromeVersion),
 	}, nil
 }
 
@@ -129,7 +125,7 @@ func (c *Info) ip(_ context.Context) (string, error) {
 
 	defer rsp.Body.Close()
 
-	buf, err := ioutil.ReadAll(rsp.Body)
+	buf, err := io.ReadAll(rsp.Body)
 
 	if err != nil {
 		return "", errors.Wrap(err, "parse response")

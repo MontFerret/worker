@@ -12,6 +12,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
 
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
@@ -19,8 +21,16 @@ jobs:
           go-version: ^1.19
         id: go
 
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
+      - name: Set up linters
+        run: make install-tools
+
+      - name: Lint
+        run: |
+          make vet
+          make lint
+          make fmt
+          git diff
+          if [[ $(git diff) != '' ]]; then echo 'Invalid formatting!' >&2; exit 1; fi
 
       - name: Get dependencies
         run: |

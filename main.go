@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/go-waitfor/waitfor"
-	"github.com/go-waitfor/waitfor-http"
+	http "github.com/go-waitfor/waitfor-http"
 	"github.com/namsral/flag"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
@@ -64,8 +64,8 @@ func main() {
 	}
 
 	if *showVersion {
-		fmt.Println(fmt.Sprintf("Worker: %s", version))
-		fmt.Println(fmt.Sprintf("Ferret: %s", ferretVersion))
+		fmt.Printf("Worker: %s\n", version)
+		fmt.Printf("Ferret: %s\n", ferretVersion)
 		os.Exit(0)
 	}
 
