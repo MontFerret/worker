@@ -30,5 +30,6 @@ fmt:
 	goimports -w -local github.com/MontFerret ./internal ./pkg main.go
 
 lint:
+	go vet ./... &&
 	staticcheck ./... && \
 	revive -config revive.toml -formatter stylish -exclude ./pkg/parser/fql/... -exclude ./vendor/... ./...
