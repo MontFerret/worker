@@ -2,10 +2,11 @@ package server
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/ziflex/lecho/v3"
-	"net/http"
 )
 
 // Server is HTTP server that wraps Ferret worker.

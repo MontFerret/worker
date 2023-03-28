@@ -1,8 +1,9 @@
 package storage
 
 import (
+	lru "github.com/hashicorp/golang-lru/v2"
+
 	"github.com/MontFerret/ferret/pkg/runtime"
-	"github.com/hashicorp/golang-lru/v2"
 
 	"github.com/MontFerret/worker/pkg/caching"
 )

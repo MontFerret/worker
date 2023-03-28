@@ -3,8 +3,9 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/MontFerret/worker/pkg/worker"
 	"github.com/labstack/echo/v4"
+
+	"github.com/MontFerret/worker/pkg/worker"
 )
 
 type (

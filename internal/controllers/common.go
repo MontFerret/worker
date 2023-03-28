@@ -1,7 +1,7 @@
 package controllers
 
 type (
-	HttpError struct {
+	HTTPError struct {
 		Error string `json:"error"`
 	}
 )

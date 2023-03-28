@@ -3,12 +3,13 @@ package worker
 import (
 	"context"
 
+	"github.com/pkg/errors"
+
 	"github.com/MontFerret/ferret/pkg/compiler"
 	"github.com/MontFerret/ferret/pkg/drivers"
 	"github.com/MontFerret/ferret/pkg/drivers/cdp"
 	"github.com/MontFerret/ferret/pkg/drivers/http"
 	"github.com/MontFerret/ferret/pkg/runtime"
-	"github.com/pkg/errors"
 
 	"github.com/MontFerret/worker/pkg/caching"
 )
