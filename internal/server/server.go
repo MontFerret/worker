@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"golang.org/x/time/rate"
 
@@ -17,6 +18,10 @@ type (
 		// RequestLimit is a number of requests per second for each IP.
 		// If value is 0, rate limit is disabled.
 		RequestLimit uint64
+
+		// RequestLimitTimeWindow is a period of requests limit in seconds.
+		// If value is 0, rate limit is set default value.
+		RequestLimitTimeWindow uint64
 
 		// BodyLimit is a maximum size of request body.
 		// If value is 0, body limit is disabled.
@@ -35,7 +40,16 @@ func New(logger *lecho.Logger, opts Options) (*Server, error) {
 	router.HideBanner = true
 
 	if opts.RequestLimit > 0 {
-		router.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(rate.Limit(opts.RequestLimit))))
+		var dur time.Duration
+
+		if opts.RequestLimitTimeWindow > 0 {
+			dur = time.Second * time.Duration(opts.RequestLimitTimeWindow)
+		}
+
+		router.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStoreWithConfig(middleware.RateLimiterMemoryStoreConfig{
+			Rate:      rate.Limit(opts.RequestLimit),
+			ExpiresIn: dur,
+		})))
 	}
 
 	router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
