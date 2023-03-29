@@ -26,6 +26,8 @@ var (
 
 	port = flag.Uint64("port", 8080, "port to listen")
 
+	noChrome = flag.Bool("no-chrome", false, "disable Chrome driver")
+
 	chromeIP = flag.String("chrome-ip", "127.0.0.1", "Google Chrome remote IP address")
 
 	chromeDebuggingPort = flag.Uint64("chrome-port", 9222, "Google Chrome remote debugging port")
@@ -40,6 +42,18 @@ var (
 		"cache-size",
 		100,
 		"amount of cached queries. 0 means no caching.",
+	)
+
+	requestLimit = flag.Uint64(
+		"request-limit",
+		20,
+		"amount of requests per second for each IP. 0 means no limit.",
+	)
+
+	bodyLimit = flag.Uint64(
+		"body-limit",
+		1000,
+		"maximum size of request body in kb. 0 means no limit.",
 	)
 
 	showVersion = flag.Bool(
@@ -84,15 +98,19 @@ func main() {
 	)
 
 	cdp := worker.CDPSettings{
-		Host: *chromeIP,
-		Port: *chromeDebuggingPort,
+		Host:     *chromeIP,
+		Port:     *chromeDebuggingPort,
+		Disabled: *noChrome,
 	}
 
 	if err := waitForChrome(cdp); err != nil {
 		logger.Fatalf("wait for Chrome: %s", err)
 	}
 
-	srv, err := server.New(logger)
+	srv, err := server.New(logger, server.Options{
+		RequestLimit: *requestLimit,
+		BodyLimit:    *bodyLimit,
+	})
 
 	if err != nil {
 		logger.Fatal(err)
@@ -104,10 +122,14 @@ func main() {
 		logger.Fatal(errors.Wrap(err, "create cache storage"))
 	}
 
-	wkr, err := worker.New(
-		worker.WithCustomCDP(cdp),
-		worker.WithCache(cache),
-	)
+	opts := make([]worker.Option, 0, 2)
+	opts = append(opts, worker.WithCache(cache))
+
+	if !cdp.Disabled {
+		opts = append(opts, worker.WithCustomCDP(cdp))
+	}
+
+	wkr, err := worker.New(opts...)
 
 	if err != nil {
 		logger.Fatal(errors.Wrap(err, "create a worker instance"))
@@ -123,6 +145,10 @@ func main() {
 }
 
 func waitForChrome(cdp worker.CDPSettings) error {
+	if cdp.Disabled {
+		return nil
+	}
+
 	runner := waitfor.New(http.Use())
 
 	return runner.Test(context.Background(), []string{

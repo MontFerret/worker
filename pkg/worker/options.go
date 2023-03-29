@@ -10,8 +10,9 @@ import (
 
 type (
 	CDPSettings struct {
-		Host string `json:"host"`
-		Port uint64 `json:"port"`
+		Host     string `json:"host"`
+		Port     uint64 `json:"port"`
+		Disabled bool   `json:"disabled"`
 	}
 
 	Options struct {

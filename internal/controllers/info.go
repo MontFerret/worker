@@ -87,32 +87,38 @@ func (c *Info) Use(e *echo.Echo) {
 }
 
 func (c *Info) version(_ context.Context) (VersionDto, error) {
-	chromeVersionResp, err := http.Get(c.settings.CDP.VersionURL())
+	var chromeVersion ChromeVersionDto
 
-	if err != nil {
-		return VersionDto{}, errors.Wrap(err, "call Chrome")
-	}
+	if !c.settings.CDP.Disabled {
+		chromeVersionResp, err := http.Get(c.settings.CDP.VersionURL())
 
-	defer chromeVersionResp.Body.Close()
+		if err != nil {
+			return VersionDto{}, errors.Wrap(err, "call Chrome")
+		}
 
-	chromeVersionBlob, err := io.ReadAll(chromeVersionResp.Body)
+		defer chromeVersionResp.Body.Close()
 
-	if err != nil {
-		return VersionDto{}, errors.Wrap(err, "read response from Chrome")
-	}
+		chromeVersionBlob, err := io.ReadAll(chromeVersionResp.Body)
 
-	chromeVersion := chromeVersionInternal{}
+		if err != nil {
+			return VersionDto{}, errors.Wrap(err, "read response from Chrome")
+		}
 
-	err = json.Unmarshal(chromeVersionBlob, &chromeVersion)
+		chromeVersionInternal := chromeVersionInternal{}
 
-	if err != nil {
-		return VersionDto{}, errors.Wrap(err, "parse response from Chrome")
+		err = json.Unmarshal(chromeVersionBlob, &chromeVersionInternal)
+
+		if err != nil {
+			return VersionDto{}, errors.Wrap(err, "parse response from Chrome")
+		}
+
+		chromeVersion = ChromeVersionDto(chromeVersionInternal)
 	}
 
 	return VersionDto{
 		Worker: c.settings.Version,
 		Ferret: c.settings.FerretVersion,
-		Chrome: ChromeVersionDto(chromeVersion),
+		Chrome: chromeVersion,
 	}, nil
 }
 
