@@ -50,6 +50,12 @@ var (
 		"amount of requests per second for each IP. 0 means no limit.",
 	)
 
+	requestLimitTimeWindow = flag.Uint64(
+		"request-limit-time-window",
+		60*3,
+		"amount of seconds for request rate limit time window",
+	)
+
 	bodyLimit = flag.Uint64(
 		"body-limit",
 		1000,
@@ -108,8 +114,9 @@ func main() {
 	}
 
 	srv, err := server.New(logger, server.Options{
-		RequestLimit: *requestLimit,
-		BodyLimit:    *bodyLimit,
+		RequestLimit:           *requestLimit,
+		RequestLimitTimeWindow: *requestLimitTimeWindow,
+		BodyLimit:              *bodyLimit,
 	})
 
 	if err != nil {

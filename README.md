@@ -105,6 +105,8 @@ Health check endpoint (for Kubernetes, e.g.). Returns empty 200.
     maximum size of request body in kb. 0 means no limit.
   -request-limit=20
     amount of requests per second for each IP. 0 means no limit.
+  -request-limit-time-window=180
+    amount of seconds for request rate limit time window.
   -cache-size=100
     amount of cached queries. 0 means no caching.
   -chrome-ip="127.0.0.1"
