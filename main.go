@@ -46,7 +46,7 @@ var (
 
 	requestLimit = flag.Uint64(
 		"request-limit",
-		20,
+		0,
 		"amount of requests per second for each IP. 0 means no limit.",
 	)
 
