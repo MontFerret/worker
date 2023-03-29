@@ -23,6 +23,10 @@ func (c *Health) Use(e *echo.Echo) {
 }
 
 func (c *Health) healthCheck(ctx echo.Context) error {
+	if c.settings.Disabled {
+		return ctx.NoContent(http.StatusOK)
+	}
+
 	out, err := http.Get(c.settings.VersionURL())
 
 	if err != nil {
