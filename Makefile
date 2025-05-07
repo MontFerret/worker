@@ -4,6 +4,8 @@ DIR_BIN = ./bin
 
 default: compile start
 
+build: vet test compile
+
 compile:
 	go build -v -o ${DIR_BIN}/worker \
 	-ldflags "-X main.version=${VERSION} -X main.ferretVersion=${FERRET_VERSION}" \
@@ -30,6 +32,8 @@ fmt:
 	goimports -w -local github.com/MontFerret ./internal ./pkg main.go
 
 lint:
-	go vet ./... && \
 	staticcheck ./... && \
 	revive -config revive.toml -formatter stylish -exclude ./pkg/parser/fql/... -exclude ./vendor/... ./...
+
+vet:
+	go vet ./...
