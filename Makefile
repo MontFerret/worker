@@ -2,7 +2,11 @@ VERSION ?= $(shell sh versions.sh worker)
 FERRET_VERSION = $(shell sh versions.sh ferret)
 DIR_BIN = ./bin
 
+.PHONY: build
+
 default: compile start
+
+build: lint test compile
 
 compile:
 	go build -v -o ${DIR_BIN}/worker \
