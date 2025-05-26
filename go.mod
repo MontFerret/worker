@@ -9,7 +9,7 @@ require (
 	github.com/go-waitfor/waitfor v1.0.0
 	github.com/go-waitfor/waitfor-http v1.0.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
-	github.com/labstack/echo/v4 v4.13.3
+	github.com/labstack/echo/v4 v4.13.4
 	github.com/namsral/flag v1.7.4-pre
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.34.0
@@ -31,7 +31,7 @@ require (
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect
 	github.com/mafredri/cdp v0.35.0 // indirect
-	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/sethgrid/pester v1.2.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
