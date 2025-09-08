@@ -6,7 +6,7 @@ toolchain go1.24.2
 
 require (
 	github.com/MontFerret/ferret v0.18.1
-	github.com/go-waitfor/waitfor v1.0.0
+	github.com/go-waitfor/waitfor v1.1.0
 	github.com/go-waitfor/waitfor-http v1.0.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.13.4
@@ -23,7 +23,7 @@ require (
 	github.com/antchfx/htmlquery v1.3.4 // indirect
 	github.com/antchfx/xpath v1.3.4 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
-	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
+	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
 	github.com/corpix/uarand v0.2.0 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
