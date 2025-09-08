@@ -13,7 +13,7 @@ require (
 	github.com/namsral/flag v1.7.4-pre
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.34.0
-	github.com/ziflex/lecho/v3 v3.8.0
+	github.com/ziflex/lecho/v3 v3.8.1
 	golang.org/x/time v0.12.0
 )
 
