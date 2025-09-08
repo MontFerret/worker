@@ -7,7 +7,7 @@ toolchain go1.24.2
 require (
 	github.com/MontFerret/ferret v0.18.1
 	github.com/go-waitfor/waitfor v1.1.0
-	github.com/go-waitfor/waitfor-http v1.0.0
+	github.com/go-waitfor/waitfor-http v1.1.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/namsral/flag v1.7.4-pre
