@@ -19,6 +19,9 @@ type (
 		// If value is 0, rate limit is disabled.
 		RequestLimit uint64
 
+		// RequestLimitSkipper defines a function to skip request rate limiting based on custom logic.
+		RequestLimitSkipper middleware.Skipper
+
 		// RequestLimitTimeWindow is a period of requests limit in seconds.
 		// If value is 0, rate limit is set default value.
 		RequestLimitTimeWindow uint64
@@ -40,16 +43,30 @@ func New(logger *lecho.Logger, opts Options) (*Server, error) {
 	router.HideBanner = true
 
 	if opts.RequestLimit > 0 {
-		var dur time.Duration
+		window := time.Second
 
 		if opts.RequestLimitTimeWindow > 0 {
-			dur = time.Second * time.Duration(opts.RequestLimitTimeWindow)
+			window = time.Second * time.Duration(opts.RequestLimitTimeWindow)
 		}
 
-		router.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStoreWithConfig(middleware.RateLimiterMemoryStoreConfig{
-			Rate:      rate.Limit(opts.RequestLimit),
-			ExpiresIn: dur,
-		})))
+		// RequestLimit is defined as requests per second; allow bursts over the configured window.
+		r := rate.Limit(float64(opts.RequestLimit))
+		burst := int(float64(opts.RequestLimit) * window.Seconds())
+
+		router.Use(middleware.RateLimiterWithConfig(
+			middleware.RateLimiterConfig{
+				Skipper: opts.RequestLimitSkipper,
+				Store: middleware.NewRateLimiterMemoryStoreWithConfig(
+					middleware.RateLimiterMemoryStoreConfig{
+						Rate:  r,
+						Burst: burst,
+						// Keep rate limiter entries for twice the window duration to cover
+						// edge cases around window boundaries while enforcing N requests per W seconds.
+						ExpiresIn: 2 * window,
+					},
+				),
+			},
+		))
 	}
 
 	router.Use(middleware.CORSWithConfig(middleware.CORSConfig{

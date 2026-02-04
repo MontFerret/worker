@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-waitfor/waitfor"
 	http "github.com/go-waitfor/waitfor-http"
+	"github.com/labstack/echo/v4"
 	"github.com/namsral/flag"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
@@ -116,7 +117,10 @@ func main() {
 	srv, err := server.New(logger, server.Options{
 		RequestLimit:           *requestLimit,
 		RequestLimitTimeWindow: *requestLimitTimeWindow,
-		BodyLimit:              *bodyLimit,
+		RequestLimitSkipper: func(c echo.Context) bool {
+			return c.Path() == controllers.HealthPath
+		},
+		BodyLimit: *bodyLimit,
 	})
 
 	if err != nil {
