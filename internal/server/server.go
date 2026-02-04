@@ -49,9 +49,9 @@ func New(logger *lecho.Logger, opts Options) (*Server, error) {
 			window = time.Second * time.Duration(opts.RequestLimitTimeWindow)
 		}
 
-		// N requests per W seconds
-		r := rate.Limit(float64(opts.RequestLimit) / window.Seconds())
-		burst := int(opts.RequestLimit)
+		// RequestLimit is defined as requests per second; allow bursts over the configured window.
+		r := rate.Limit(float64(opts.RequestLimit))
+		burst := int(float64(opts.RequestLimit) * window.Seconds())
 
 		router.Use(middleware.RateLimiterWithConfig(
 			middleware.RateLimiterConfig{
