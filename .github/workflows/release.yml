@@ -36,10 +36,10 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Login to Google Cloud Registry
+      - name: Login to Google Artifact Registry
         uses: docker/login-action@v3
         with:
-          registry: gcr.io
+          registry: us-east1-docker.pkg.dev
           username: _json_key
           password: ${{ secrets.GCR_JSON_KEY }}
       - name: Run GoReleaser

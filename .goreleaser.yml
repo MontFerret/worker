@@ -50,9 +50,9 @@ dockers:
       - "ghcr.io/montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
       - "ghcr.io/montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}"
       - "ghcr.io/montferret/{{ .ProjectName }}:latest"
-      - "gcr.io/montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
-      - "gcr.io/montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}"
-      - "gcr.io/montferret/{{ .ProjectName }}:latest"
+      - "us-east1-docker.pkg.dev/montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
+      - "us-east1-docker.pkg.dev/montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}"
+      - "us-east1-docker.pkg.dev/montferret/{{ .ProjectName }}:latest"
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
