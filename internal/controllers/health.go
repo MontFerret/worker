@@ -8,18 +8,18 @@ import (
 	"github.com/MontFerret/worker/pkg/worker"
 )
 
-type (
-	Health struct {
-		settings worker.CDPSettings
-	}
-)
+const HealthPath = "/health"
+
+type Health struct {
+	settings worker.CDPSettings
+}
 
 func NewHealth(settings worker.CDPSettings) (*Health, error) {
 	return &Health{settings}, nil
 }
 
 func (c *Health) Use(e *echo.Echo) {
-	e.GET("/health", c.healthCheck)
+	e.GET(HealthPath, c.healthCheck)
 }
 
 func (c *Health) healthCheck(ctx echo.Context) error {
