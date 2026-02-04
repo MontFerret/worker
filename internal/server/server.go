@@ -58,8 +58,10 @@ func New(logger *lecho.Logger, opts Options) (*Server, error) {
 				Skipper: opts.RequestLimitSkipper,
 				Store: middleware.NewRateLimiterMemoryStoreWithConfig(
 					middleware.RateLimiterMemoryStoreConfig{
-						Rate:      r,
-						Burst:     burst,
+						Rate:  r,
+						Burst: burst,
+						// Keep rate limiter entries for twice the window duration to cover
+						// edge cases around window boundaries while enforcing N requests per W seconds.
 						ExpiresIn: 2 * window,
 					},
 				),
