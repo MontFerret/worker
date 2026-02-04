@@ -37,12 +37,19 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          create_credentials_file: true
+          workload_identity_provider: 'projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/POOL_ID/providers/PROVIDER_ID'
+          service_account: 'SERVICE_ACCOUNT_EMAIL'
       - name: Login to Google Artifact Registry
         uses: docker/login-action@v3
         with:
           registry: us-east1-docker.pkg.dev
-          username: _json_key
-          password: ${{ secrets.GCR_JSON_KEY }}
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
