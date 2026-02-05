@@ -26,9 +26,11 @@ type (
 		// If value is 0, rate limit is set default value.
 		RequestLimitTimeWindow uint64
 
-		// BodyLimit is a maximum size of request body.
-		// If value is 0, body limit is disabled.
-		BodyLimit uint64
+		// BodyLimit sets the maximum allowed size for the request body.
+		// If set to the empty string (`""`), no body size limit is enforced.
+		// Accepted formats are an integer followed by an optional unit, e.g. `4K`, `4KB`, `10M`, `1G`.
+		// Supported units: K, M, G, T, P (optionally followed by `B`), case-insensitive.
+		BodyLimit string
 	}
 
 	// Server is HTTP server that wraps Ferret worker.
@@ -76,8 +78,8 @@ func New(logger *lecho.Logger, opts Options) (*Server, error) {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
 
-	if opts.BodyLimit > 0 {
-		router.Use(middleware.BodyLimit(fmt.Sprintf("%d", opts.BodyLimit)))
+	if opts.BodyLimit != "" {
+		router.Use(middleware.BodyLimit(opts.BodyLimit))
 	}
 
 	router.Use(middleware.RequestID())

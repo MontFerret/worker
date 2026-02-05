@@ -57,10 +57,10 @@ var (
 		"amount of seconds for request rate limit time window",
 	)
 
-	bodyLimit = flag.Uint64(
+	bodyLimit = flag.String(
 		"body-limit",
-		1000,
-		"maximum size of request body in kb. 0 means no limit.",
+		"1M",
+		"maximum allowed size for a request body (e.g., 4K, 4KB, 10M, 1G). Empty string means no limit.",
 	)
 
 	showVersion = flag.Bool(
