@@ -1,8 +1,6 @@
 module github.com/MontFerret/worker
 
-go 1.24.0
-
-toolchain go1.24.2
+go 1.25.0
 
 require (
 	github.com/MontFerret/ferret v0.18.1
@@ -14,7 +12,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.34.0
 	github.com/ziflex/lecho/v3 v3.9.0
-	golang.org/x/time v0.14.0
+	golang.org/x/time v0.15.0
 )
 
 require (
