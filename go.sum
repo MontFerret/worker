@@ -94,8 +94,8 @@ github.com/valyala/fasttemplate v1.2.2/go.mod h1:KHLXt3tVN2HBp8eijSv/kGJopbvo7S+
 github.com/wI2L/jettison v0.7.4 h1:ptjriu75R/k5RAZO0DJzy2t55f7g+dPiBxBY38icaKg=
 github.com/wI2L/jettison v0.7.4/go.mod h1:O+F+T7X7ZN6kTsd167Qk4aZMC8jNrH48SMedNmkfPb0=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
-github.com/ziflex/lecho/v3 v3.10.0 h1:9f665HhnjYbS49kVG5gTfL02g+pf/7RiXf5llvVUMcM=
-github.com/ziflex/lecho/v3 v3.10.0/go.mod h1:GvXRFhfBbGQ+cUo15RZkqQrrw4mPMDdsIoH164miBvU=
+github.com/ziflex/lecho/v3 v3.11.0 h1:om6xm4N5NUJy+JzoUOlu/YL4/mclRAPesrUEFGhbxcQ=
+github.com/ziflex/lecho/v3 v3.11.0/go.mod h1:GvXRFhfBbGQ+cUo15RZkqQrrw4mPMDdsIoH164miBvU=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20210921155107-089bfa567519/go.mod h1:GvvjBRRGRdwPK5ydBHafDWAxML/pGHZbMvKqRZ5+Abc=
 golang.org/x/crypto v0.13.0/go.mod h1:y6Z2r+Rw4iayiXXAIxJIDAJ1zMW4yaTpebo8fPOliYc=
