@@ -43,7 +43,7 @@ func (c *Worker) runScript(ctx echo.Context) error {
 
 		return ctx.JSON(
 			http.StatusBadRequest,
-			HTTPError{err.Error()},
+			newHTTPError(err),
 		)
 	}
 
@@ -56,7 +56,7 @@ func (c *Worker) runScript(ctx echo.Context) error {
 
 		return ctx.JSON(
 			http.StatusBadRequest,
-			HTTPError{err.Error()},
+			newHTTPError(err),
 		)
 	}
 

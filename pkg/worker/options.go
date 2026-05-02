@@ -3,8 +3,8 @@ package worker
 import (
 	"fmt"
 
-	"github.com/MontFerret/ferret/pkg/runtime"
-	"github.com/MontFerret/ferret/pkg/runtime/core"
+	"github.com/MontFerret/ferret/v2"
+	"github.com/MontFerret/ferret/v2/pkg/runtime"
 	"github.com/MontFerret/worker/pkg/caching"
 )
 
@@ -16,10 +16,9 @@ type (
 	}
 
 	Options struct {
-		functions []core.Functions
-		noStdlib  bool
-		cdp       CDPSettings
-		cache     caching.Cache[*runtime.Program]
+		engine []ferret.Option
+		cdp    CDPSettings
+		cache  caching.Cache[*ferret.Plan]
 	}
 
 	Option func(opts *Options)
@@ -35,7 +34,7 @@ func (s CDPSettings) VersionURL() string {
 
 func newOptions() *Options {
 	return &Options{
-		functions: make([]core.Functions, 0, 5),
+		engine: []ferret.Option{},
 		cdp: CDPSettings{
 			Host: "127.0.0.1",
 			Port: 9222,
@@ -43,15 +42,15 @@ func newOptions() *Options {
 	}
 }
 
-func WithFunctions(functions core.Functions) Option {
+func WithFunctions(functions *runtime.Functions) Option {
 	return func(opts *Options) {
-		opts.functions = append(opts.functions, functions)
+		opts.engine = append(opts.engine, ferret.WithFunctions(functions))
 	}
 }
 
 func WithoutStdlib() Option {
 	return func(opts *Options) {
-		opts.noStdlib = true
+		opts.engine = append(opts.engine, ferret.WithoutStdlib())
 	}
 }
 
@@ -61,7 +60,7 @@ func WithCustomCDP(cdp CDPSettings) Option {
 	}
 }
 
-func WithCache(cache caching.Cache[*runtime.Program]) Option {
+func WithCache(cache caching.Cache[*ferret.Plan]) Option {
 	return func(opts *Options) {
 		opts.cache = cache
 	}

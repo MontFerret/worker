@@ -145,6 +145,14 @@ Executes a given FQL query. The payload must have the following shape:
 }
 ```
 
+**Error response:**
+```json
+{
+  "error": "run program: Found 2 errors",
+  "details": "TypeError: runtime error\n --> anonymous:1:13\n1 | RETURN { a: @url, b: @limit }\n  |             ^^^^ parameter is required\n"
+}
+```
+
 **Example with complex data extraction:**
 ```bash
 curl -X POST http://localhost:8080/ \

@@ -9,6 +9,7 @@ type (
 
 	// Result is the result of Query.
 	Result struct {
-		Raw []byte
+		ContentType string
+		Raw         []byte
 	}
 )
