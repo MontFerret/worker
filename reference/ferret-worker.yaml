@@ -146,5 +146,8 @@ definitions:
     properties:
       error:
         type: string
+      details:
+        type: string
     required:
       - error
+      - details

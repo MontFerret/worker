@@ -1,6 +1,7 @@
-VERSION ?= $(shell sh versions.sh worker)
-FERRET_VERSION = $(shell sh versions.sh ferret)
+VERSION ?= $(shell sh scripts/versions.sh worker)
+FERRET_VERSION = $(shell sh scripts/versions.sh ferret)
 DIR_BIN = ./bin
+NAME = worker
 
 .PHONY: build
 
@@ -9,7 +10,7 @@ default: compile start
 build: lint test compile
 
 compile:
-	go build -v -o ${DIR_BIN}/worker \
+	go build -v -o ${DIR_BIN}/${NAME} \
 	-ldflags "-X main.version=${VERSION} -X main.ferretVersion=${FERRET_VERSION}" \
 	./main.go
 
@@ -24,10 +25,10 @@ install-packages:
 install: install-tools install-packages
 
 test:
-	go test ./
+	go test ./... -coverprofile=coverage.out
 
 start:
-	./bin/worker
+	${DIR_BIN}/${NAME}
 
 fmt:
 	go fmt ./... && \
@@ -37,3 +38,6 @@ lint:
 	go vet ./... && \
 	staticcheck ./... && \
 	revive -config revive.toml -formatter stylish -exclude ./pkg/parser/fql/... -exclude ./vendor/... ./...
+
+release:
+	./scripts/release.sh $(TAG)

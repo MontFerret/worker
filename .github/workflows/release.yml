@@ -1,9 +1,9 @@
 name: Build and push Docker images
 
 on:
-  release:
-    types:
-      - created
+  push:
+    tags:
+      - 'v*'
 
 permissions:
   contents: write
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '>=1.24'
+          go-version: '>=1.25'
 
       - name: Set up env vars
         run: |
@@ -56,9 +56,8 @@ jobs:
         run: gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
 
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@v7
         with:
-          version: latest
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

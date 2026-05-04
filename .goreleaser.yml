@@ -2,15 +2,16 @@
 # Make sure to check the documentation at http://goreleaser.com
 version: 2
 
-env:
-  - GO111MODULE=on
+release:
+  draft: true
 
 before:
   hooks:
     - go mod download
 
 builds:
-  - env:
+  - main: ./main.go
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
@@ -20,8 +21,9 @@ builds:
       - amd64
       - arm64
     ldflags:
-      - -s -w -X main.version={{ .Version }}
-      - -s -w -X main.ferretVersion={{ .Env.FERRET_VERSION }}
+      - -s -w
+      - -X main.version={{ .Version }}
+      - -X main.ferretVersion={{ .Env.FERRET_VERSION }}
 
 archives:
   - name_template: >-
