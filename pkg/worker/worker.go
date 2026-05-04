@@ -5,6 +5,8 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/MontFerret/worker/internal/storage"
+
 	"github.com/MontFerret/ferret/v2"
 	"github.com/MontFerret/ferret/v2/pkg/source"
 
@@ -19,27 +21,27 @@ type Worker struct {
 
 // New returns Worker without file system access.
 func New(setters ...Option) (*Worker, error) {
-	opts := newOptions()
+	opts, err := newOptions(setters)
 
-	for _, setter := range setters {
-		setter(opts)
+	if err != nil {
+		return nil, errors.Wrap(err, "create options")
 	}
 
-	engine, err := ferret.New(opts.engine...)
+	engine, err := ferret.New(opts.Engine...)
 
 	if err != nil {
 		return nil, errors.Wrap(err, "create engine")
 	}
 
+	cache, err := storage.NewCache(opts.Cache...)
+
+	if err != nil {
+		return nil, errors.Wrap(err, "create cache storage")
+	}
+
 	return &Worker{
 		engine: engine,
-		//drivers: []drivers.Driver{
-		//	cdp.NewDriver(
-		//		cdp.WithAddress(opts.cdp.BaseURL()),
-		//	),
-		//	http.NewDriver(),
-		//},
-		cache: opts.cache,
+		cache:  cache,
 	}, nil
 }
 

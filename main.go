@@ -16,8 +16,6 @@ import (
 
 	"github.com/MontFerret/worker/internal/controllers"
 	"github.com/MontFerret/worker/internal/server"
-	"github.com/MontFerret/worker/internal/storage"
-	"github.com/MontFerret/worker/pkg/caching"
 	"github.com/MontFerret/worker/pkg/worker"
 )
 
@@ -141,14 +139,8 @@ func main() {
 		logger.Fatal(err)
 	}
 
-	cache, err := storage.NewCache(caching.WithSize(*cacheSize))
-
-	if err != nil {
-		logger.Fatal(errors.Wrap(err, "create cache storage"))
-	}
-
 	opts := []worker.Option{
-		worker.WithCache(cache),
+		worker.WithCacheSize(*cacheSize),
 		worker.WithFSRoot(resolvedFSRoot),
 	}
 
