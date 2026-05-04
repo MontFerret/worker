@@ -24,7 +24,7 @@ install-packages:
 install: install-tools install-packages
 
 test:
-	go test ./
+	go test ./... -coverprofile=coverage.out
 
 start:
 	./bin/worker
