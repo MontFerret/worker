@@ -65,3 +65,9 @@ func WithCache(cache caching.Cache[*ferret.Plan]) Option {
 		opts.cache = cache
 	}
 }
+
+func WithFSRoot(rootDir string) Option {
+	return func(opts *Options) {
+		opts.engine = append(opts.engine, ferret.WithFSRoot(rootDir))
+	}
+}

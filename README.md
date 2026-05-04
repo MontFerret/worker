@@ -208,6 +208,8 @@ HTTP/1.1 424 Failed Dependency
     port to listen
   -body-limit=1000
     maximum size of request body in kb. 0 means no limit.
+  -fs-root=""
+    file system root directory for FQL IO::FS functions. Defaults to the current working directory.
   -request-limit=0
     amount of requests per second for each IP. 0 means no limit.
   -request-limit-time-window=180
@@ -236,6 +238,7 @@ worker \
   -request-limit=10 \
   -request-limit-time-window=60 \
   -body-limit=2000 \
+  -fs-root=/var/lib/ferret-worker \
   -cache-size=500
 ```
 
@@ -288,6 +291,7 @@ docker run -d \
 - **Body Size Limits**: Set appropriate body size limits (`-body-limit`) to prevent abuse
 - **Network Security**: Worker should not be exposed directly to the internet without proper authentication
 - **Query Validation**: Consider implementing query validation/filtering for untrusted input
+- **Filesystem Access**: Worker enables FQL filesystem functions rooted at the current working directory by default. Set `-fs-root` to a dedicated directory in production.
 - **Resource Monitoring**: Monitor CPU and memory usage as complex queries can be resource-intensive
 - **Chrome Security**: The bundled Chrome runs in sandboxed mode, but avoid running as root in production
 
@@ -299,6 +303,7 @@ worker \
   -request-limit=5 \
   -request-limit-time-window=60 \
   -body-limit=1000 \
+  -fs-root=/var/lib/ferret-worker \
   -cache-size=200
 ```
 

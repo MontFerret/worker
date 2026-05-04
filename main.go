@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/go-waitfor/waitfor"
 	http "github.com/go-waitfor/waitfor-http"
@@ -63,6 +64,12 @@ var (
 		"maximum allowed size for a request body (e.g., 4K, 4KB, 10M, 1G). Empty string means no limit.",
 	)
 
+	fsRoot = flag.String(
+		"fs-root",
+		"",
+		"file system root directory for FQL IO::FS functions. Defaults to the current working directory.",
+	)
+
 	showVersion = flag.Bool(
 		"version",
 		false,
@@ -88,6 +95,13 @@ func main() {
 		fmt.Printf("Worker: %s\n", version)
 		fmt.Printf("Ferret: %s\n", ferretVersion)
 		os.Exit(0)
+	}
+
+	resolvedFSRoot, err := resolveFSRoot(*fsRoot, flagIsSet("fs-root"))
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
 
 	z, err := zerolog.ParseLevel(*logLevel)
@@ -133,8 +147,10 @@ func main() {
 		logger.Fatal(errors.Wrap(err, "create cache storage"))
 	}
 
-	opts := make([]worker.Option, 0, 2)
-	opts = append(opts, worker.WithCache(cache))
+	opts := []worker.Option{
+		worker.WithCache(cache),
+		worker.WithFSRoot(resolvedFSRoot),
+	}
 
 	if !cdp.Disabled {
 		opts = append(opts, worker.WithCustomCDP(cdp))
@@ -153,6 +169,38 @@ func main() {
 	if err := srv.Run(*port); err != nil {
 		logger.Fatal(err)
 	}
+}
+
+func flagIsSet(name string) bool {
+	isSet := false
+
+	flag.Visit(func(f *flag.Flag) {
+		if f.Name == name {
+			isSet = true
+		}
+	})
+
+	return isSet
+}
+
+func resolveFSRoot(root string, isSet bool) (string, error) {
+	if !isSet {
+		wd, err := os.Getwd()
+
+		if err != nil {
+			return "", errors.Wrap(err, "get current working directory")
+		}
+
+		return wd, nil
+	}
+
+	root = strings.TrimSpace(root)
+
+	if root == "" {
+		return "", errors.New("fs root cannot be empty")
+	}
+
+	return root, nil
 }
 
 func waitForChrome(cdp worker.CDPSettings) error {
