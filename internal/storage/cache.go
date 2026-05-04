@@ -1,8 +1,9 @@
 package storage
 
 import (
-	"github.com/MontFerret/ferret/v2"
 	lru "github.com/hashicorp/golang-lru/v2"
+
+	"github.com/MontFerret/ferret/v2"
 
 	"github.com/MontFerret/worker/pkg/caching"
 )
