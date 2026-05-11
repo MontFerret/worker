@@ -39,20 +39,37 @@ archives:
         formats: ['zip']
 
 dockers:
-  - goos: linux
+  - id: worker-version
+    goos: linux
     goarch: amd64
     ids:
       - worker
     skip_push: false
     dockerfile: Dockerfile.release
     image_templates:
-      - "docker.io/montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
+      - "docker.io/montferret/{{ .ProjectName }}:{{ .Version }}"
+      - "ghcr.io/montferret/{{ .ProjectName }}:{{ .Version }}"
+      - "us-east1-docker.pkg.dev/montferret/{{ .ProjectName }}/{{ .ProjectName }}:{{ .Version }}"
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.name={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source=https://github.com/MontFerret/{{.ProjectName}}"
+
+  - id: worker-stable-aliases
+    goos: linux
+    goarch: amd64
+    ids:
+      - worker
+    skip_push: "{{ if .Prerelease }}true{{ else }}false{{ end }}"
+    dockerfile: Dockerfile.release
+    image_templates:
       - "docker.io/montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}"
       - "docker.io/montferret/{{ .ProjectName }}:latest"
-      - "ghcr.io/montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
       - "ghcr.io/montferret/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}"
       - "ghcr.io/montferret/{{ .ProjectName }}:latest"
-      - "us-east1-docker.pkg.dev/montferret/{{ .ProjectName }}/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
       - "us-east1-docker.pkg.dev/montferret/{{ .ProjectName }}/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}"
       - "us-east1-docker.pkg.dev/montferret/{{ .ProjectName }}/{{ .ProjectName }}:latest"
     build_flag_templates:
