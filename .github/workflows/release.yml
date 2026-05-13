@@ -26,8 +26,20 @@ jobs:
 
       - name: Set up env vars
         run: |
-          export FERRET_VERSION=$(sh versions.sh ferret)
-          echo "FERRET_VERSION=$FERRET_VERSION" >> $GITHUB_ENV
+          FERRET_VERSION="$(sh scripts/versions.sh ferret)"
+          test -n "$FERRET_VERSION"
+          echo "FERRET_VERSION=$FERRET_VERSION" >> "$GITHUB_ENV"
+
+      - name: Verify release version metadata
+        run: |
+          WORKER_VERSION="${GITHUB_REF_NAME#v}"
+          go build -o /tmp/worker \
+            -ldflags "-s -w -X main.version=${WORKER_VERSION} -X main.ferretVersion=${FERRET_VERSION}" \
+            ./main.go
+
+          VERSION_OUTPUT="$(/tmp/worker -version)"
+          echo "$VERSION_OUTPUT"
+          echo "$VERSION_OUTPUT" | grep -F "Ferret: $FERRET_VERSION"
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
