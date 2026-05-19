@@ -6,7 +6,7 @@ require (
 	github.com/MontFerret/contrib/modules/csv v1.0.0-rc.1
 	github.com/MontFerret/contrib/modules/toml v1.0.0-rc.1
 	github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.1
-	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.1
+	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.2
 	github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.1
 	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.1
 	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.1
@@ -30,7 +30,7 @@ require (
 	github.com/MontFerret/cssx v0.2.0 // indirect
 	github.com/PuerkitoBio/goquery v1.12.0 // indirect
 	github.com/andybalholm/cascadia v1.3.3 // indirect
-	github.com/antchfx/htmlquery v1.3.5 // indirect
+	github.com/antchfx/htmlquery v1.3.6 // indirect
 	github.com/antchfx/xpath v1.3.6 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
@@ -53,10 +53,10 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/wI2L/jettison v0.7.4 // indirect
-	golang.org/x/crypto v0.50.0 // indirect
+	golang.org/x/crypto v0.51.0 // indirect
 	golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842 // indirect
-	golang.org/x/net v0.53.0 // indirect
+	golang.org/x/net v0.54.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
-	golang.org/x/sys v0.43.0 // indirect
-	golang.org/x/text v0.36.0 // indirect
+	golang.org/x/sys v0.44.0 // indirect
+	golang.org/x/text v0.37.0 // indirect
 )
