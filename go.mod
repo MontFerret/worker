@@ -5,8 +5,8 @@ go 1.25.6
 require (
 	github.com/MontFerret/contrib/modules/csv v1.0.0-rc.2
 	github.com/MontFerret/contrib/modules/toml v1.0.0-rc.2
-	github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.2
-	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.3
+	github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.3
+	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.4
 	github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.2
 	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.2
 	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.2
@@ -26,7 +26,7 @@ require (
 require (
 	github.com/BurntSushi/toml v1.6.0 // indirect
 	github.com/JohannesKaufmann/dom v0.2.0 // indirect
-	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.0 // indirect
+	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.1 // indirect
 	github.com/MontFerret/cssx v0.2.0 // indirect
 	github.com/PuerkitoBio/goquery v1.12.0 // indirect
 	github.com/andybalholm/cascadia v1.3.3 // indirect
@@ -39,7 +39,7 @@ require (
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/goccy/go-json v0.10.6 // indirect
 	github.com/goccy/go-yaml v1.19.2 // indirect
-	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
 	github.com/gorilla/css v1.0.1 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/labstack/gommon v0.5.0 // indirect
@@ -53,9 +53,9 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/wI2L/jettison v0.7.4 // indirect
-	golang.org/x/crypto v0.51.0 // indirect
-	golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842 // indirect
-	golang.org/x/net v0.54.0 // indirect
+	golang.org/x/crypto v0.52.0 // indirect
+	golang.org/x/exp v0.0.0-20260508232706-74f9aab9d74a // indirect
+	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
