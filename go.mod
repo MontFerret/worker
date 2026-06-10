@@ -11,7 +11,7 @@ require (
 	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.3
 	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.3
 	github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.3
-	github.com/MontFerret/ferret/v2 v2.0.0-alpha.21
+	github.com/MontFerret/ferret/v2 v2.0.0-alpha.22
 	github.com/go-waitfor/waitfor v1.1.0
 	github.com/go-waitfor/waitfor-http v1.1.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
@@ -39,7 +39,7 @@ require (
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/goccy/go-json v0.10.6 // indirect
 	github.com/goccy/go-yaml v1.19.2 // indirect
-	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
+	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/gorilla/css v1.0.1 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/labstack/gommon v0.5.0 // indirect
@@ -53,8 +53,8 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/wI2L/jettison v0.7.4 // indirect
-	golang.org/x/crypto v0.52.0 // indirect
-	golang.org/x/exp v0.0.0-20260508232706-74f9aab9d74a // indirect
+	golang.org/x/crypto v0.51.0 // indirect
+	golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842 // indirect
 	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
