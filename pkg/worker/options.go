@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"github.com/MontFerret/contrib/modules/csv"
+	"github.com/MontFerret/contrib/modules/db/sqlite"
+	"github.com/MontFerret/contrib/modules/security/jwt"
 	"github.com/MontFerret/contrib/modules/toml"
 	"github.com/MontFerret/contrib/modules/web/article"
 	"github.com/MontFerret/contrib/modules/web/html"
@@ -82,6 +84,8 @@ func newOptions(setters []Option) (Options, error) {
 			robots.New(),
 			sitemap.New(),
 			drivers,
+			sqlite.New(sqlite.WithMemoryOnly()),
+			jwt.New(),
 		),
 	}
 
