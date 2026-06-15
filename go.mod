@@ -3,17 +3,17 @@ module github.com/MontFerret/worker
 go 1.26.1
 
 require (
-	github.com/MontFerret/contrib/modules/csv v1.0.0-rc.3
-	github.com/MontFerret/contrib/modules/db/sqlite v1.0.0-rc.1
-	github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.1
-	github.com/MontFerret/contrib/modules/toml v1.0.0-rc.3
-	github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.4
-	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.6
-	github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.3
-	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.3
-	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.3
-	github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.3
-	github.com/MontFerret/ferret/v2 v2.0.0-alpha.23
+	github.com/MontFerret/contrib/modules/csv v1.0.0-rc.4
+	github.com/MontFerret/contrib/modules/db/sqlite v1.0.0-rc.2
+	github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.2
+	github.com/MontFerret/contrib/modules/toml v1.0.0-rc.4
+	github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.5
+	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.7
+	github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.4
+	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.4
+	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.4
+	github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.4
+	github.com/MontFerret/ferret/v2 v2.0.0-alpha.24
 	github.com/go-waitfor/waitfor v1.1.0
 	github.com/go-waitfor/waitfor-http v1.1.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
@@ -27,11 +27,11 @@ require (
 
 require (
 	github.com/BurntSushi/toml v1.6.0 // indirect
-	github.com/JohannesKaufmann/dom v0.2.0 // indirect
-	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.1 // indirect
+	github.com/JohannesKaufmann/dom v0.3.1 // indirect
+	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2 // indirect
 	github.com/MontFerret/cssx v0.2.0 // indirect
 	github.com/PuerkitoBio/goquery v1.12.0 // indirect
-	github.com/andybalholm/cascadia v1.3.3 // indirect
+	github.com/andybalholm/cascadia v1.3.4 // indirect
 	github.com/antchfx/htmlquery v1.3.6 // indirect
 	github.com/antchfx/xpath v1.3.6 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
@@ -60,12 +60,13 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/wI2L/jettison v0.7.4 // indirect
-	golang.org/x/crypto v0.51.0 // indirect
+	github.com/ziflex/dbx v1.10.0 // indirect
+	golang.org/x/crypto v0.53.0 // indirect
 	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f // indirect
-	golang.org/x/net v0.55.0 // indirect
-	golang.org/x/sync v0.20.0 // indirect
-	golang.org/x/sys v0.45.0 // indirect
-	golang.org/x/text v0.37.0 // indirect
+	golang.org/x/net v0.56.0 // indirect
+	golang.org/x/sync v0.21.0 // indirect
+	golang.org/x/sys v0.46.0 // indirect
+	golang.org/x/text v0.38.0 // indirect
 	modernc.org/libc v1.72.3 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
