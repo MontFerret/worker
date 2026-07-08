@@ -5,6 +5,9 @@ import (
 
 	"github.com/MontFerret/contrib/modules/csv"
 	"github.com/MontFerret/contrib/modules/db/sqlite"
+	"github.com/MontFerret/contrib/modules/document/pdf"
+	"github.com/MontFerret/contrib/modules/document/xlsx"
+	"github.com/MontFerret/contrib/modules/net/rest"
 	"github.com/MontFerret/contrib/modules/security/jwt"
 	"github.com/MontFerret/contrib/modules/toml"
 	"github.com/MontFerret/contrib/modules/web/article"
@@ -84,6 +87,9 @@ func newOptions(setters []Option) (Options, error) {
 			robots.New(),
 			sitemap.New(),
 			drivers,
+			rest.New(),
+			pdf.New(),
+			xlsx.New(),
 			sqlite.New(sqlite.WithMemoryOnly()),
 			jwt.New(),
 		),
