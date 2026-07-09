@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/go-waitfor/waitfor"
 	http "github.com/go-waitfor/waitfor-http"
@@ -23,6 +24,8 @@ var (
 	version string
 
 	ferretVersion string
+
+	defaultHTTPPolicy = worker.DefaultHTTPPolicy()
 
 	port = flag.Uint64("port", 8080, "port to listen")
 
@@ -68,6 +71,72 @@ var (
 		"file system root directory for FQL IO::FS functions. Defaults to the current working directory.",
 	)
 
+	httpAllowedHosts = flag.String(
+		"http-allowed-hosts",
+		strings.Join(defaultHTTPPolicy.AllowedHosts, ","),
+		"comma-separated exact hosts or host:port values allowed for Ferret HTTP requests",
+	)
+
+	httpAllowAllHosts = flag.Bool(
+		"http-allow-all-hosts",
+		defaultHTTPPolicy.AllowAllHosts,
+		"allow Ferret HTTP requests to any host while still applying scheme, timeout, size, redirect, and literal-address policy",
+	)
+
+	httpBlockedHosts = flag.String(
+		"http-blocked-hosts",
+		strings.Join(defaultHTTPPolicy.BlockedHosts, ","),
+		"comma-separated exact hosts or host:port values blocked for Ferret HTTP requests",
+	)
+
+	httpTimeout = flag.Duration(
+		"http-timeout",
+		defaultHTTPPolicy.Timeout,
+		"timeout for Ferret HTTP requests",
+	)
+
+	httpMaxRequestSize = flag.Int64(
+		"http-max-request-size",
+		defaultHTTPPolicy.MaxRequestSize,
+		"maximum Ferret HTTP request body size in bytes. 0 means no limit.",
+	)
+
+	httpMaxResponseSize = flag.Int64(
+		"http-max-response-size",
+		defaultHTTPPolicy.MaxResponseSize,
+		"maximum Ferret HTTP response body size in bytes. 0 means no limit.",
+	)
+
+	httpMaxRedirects = flag.Int(
+		"http-max-redirects",
+		defaultHTTPPolicy.MaxRedirects,
+		"maximum number of redirects followed by Ferret HTTP requests. 0 uses the Go standard library default.",
+	)
+
+	httpFollowRedirects = flag.Bool(
+		"http-follow-redirects",
+		defaultHTTPPolicy.FollowRedirects,
+		"follow redirects for Ferret HTTP requests",
+	)
+
+	httpAllowLocalhost = flag.Bool(
+		"http-allow-localhost",
+		defaultHTTPPolicy.AllowLocalhost,
+		"allow Ferret HTTP requests to localhost and loopback literal addresses",
+	)
+
+	httpAllowPrivateNetworks = flag.Bool(
+		"http-allow-private-networks",
+		defaultHTTPPolicy.AllowPrivateNetworks,
+		"allow Ferret HTTP requests to private-network literal IP addresses",
+	)
+
+	httpBlockedRequestHeaders = flag.String(
+		"http-blocked-request-headers",
+		strings.Join(defaultHTTPPolicy.BlockedRequestHeaders, ","),
+		"comma-separated request headers removed from Ferret HTTP requests",
+	)
+
 	showVersion = flag.Bool(
 		"version",
 		false,
@@ -80,6 +149,75 @@ var (
 		"show this list",
 	)
 )
+
+type httpPolicyConfig struct {
+	AllowedHosts          string
+	BlockedHosts          string
+	BlockedRequestHeaders string
+	Timeout               time.Duration
+	MaxRequestSize        int64
+	MaxResponseSize       int64
+	MaxRedirects          int
+	FollowRedirects       bool
+	AllowAllHosts         bool
+	AllowLocalhost        bool
+	AllowPrivateNetworks  bool
+}
+
+func currentHTTPPolicyConfig() httpPolicyConfig {
+	return httpPolicyConfig{
+		AllowedHosts:          *httpAllowedHosts,
+		BlockedHosts:          *httpBlockedHosts,
+		BlockedRequestHeaders: *httpBlockedRequestHeaders,
+		Timeout:               *httpTimeout,
+		MaxRequestSize:        *httpMaxRequestSize,
+		MaxResponseSize:       *httpMaxResponseSize,
+		MaxRedirects:          *httpMaxRedirects,
+		FollowRedirects:       *httpFollowRedirects,
+		AllowAllHosts:         *httpAllowAllHosts,
+		AllowLocalhost:        *httpAllowLocalhost,
+		AllowPrivateNetworks:  *httpAllowPrivateNetworks,
+	}
+}
+
+func newHTTPPolicyFromConfig(config httpPolicyConfig) (worker.HTTPPolicy, error) {
+	policy := worker.HTTPPolicy{
+		AllowedSchemes:        worker.DefaultHTTPPolicy().AllowedSchemes,
+		AllowedHosts:          splitCSV(config.AllowedHosts),
+		BlockedHosts:          splitCSV(config.BlockedHosts),
+		BlockedRequestHeaders: splitCSV(config.BlockedRequestHeaders),
+		Timeout:               config.Timeout,
+		MaxRequestSize:        config.MaxRequestSize,
+		MaxResponseSize:       config.MaxResponseSize,
+		MaxRedirects:          config.MaxRedirects,
+		FollowRedirects:       config.FollowRedirects,
+		AllowAllHosts:         config.AllowAllHosts,
+		AllowLocalhost:        config.AllowLocalhost,
+		AllowPrivateNetworks:  config.AllowPrivateNetworks,
+	}
+
+	if policy.AllowAllHosts && len(policy.AllowedHosts) > 0 {
+		return policy, fmt.Errorf("http allowed hosts and allow-all hosts cannot both be set")
+	}
+
+	return policy, nil
+}
+
+func splitCSV(value string) []string {
+	parts := strings.Split(value, ",")
+	out := make([]string, 0, len(parts))
+
+	for _, part := range parts {
+		part = strings.TrimSpace(part)
+		if part == "" {
+			continue
+		}
+
+		out = append(out, part)
+	}
+
+	return out
+}
 
 func main() {
 	flag.Parse()
@@ -96,6 +234,13 @@ func main() {
 	}
 
 	resolvedFSRoot, err := resolveFSRoot(*fsRoot, flagIsSet("fs-root"))
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	httpPolicy, err := newHTTPPolicyFromConfig(currentHTTPPolicyConfig())
 
 	if err != nil {
 		fmt.Println(err)
@@ -142,6 +287,8 @@ func main() {
 	opts := []worker.Option{
 		worker.WithCacheSize(*cacheSize),
 		worker.WithFSRoot(resolvedFSRoot),
+		worker.WithHTTPPolicy(httpPolicy),
+		worker.WithRESTModule(),
 	}
 
 	if !cdp.Disabled {
