@@ -40,4 +40,7 @@ lint:
 	revive -config revive.toml -formatter stylish -exclude ./pkg/parser/fql/... -exclude ./vendor/... ./...
 
 release:
-	./scripts/release.sh $(TAG)
+	@./scripts/release.sh $(word 2,$(MAKECMDGOALS))
+
+%:
+	@:
