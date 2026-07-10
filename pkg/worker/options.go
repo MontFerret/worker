@@ -5,6 +5,9 @@ import (
 
 	"github.com/MontFerret/contrib/modules/csv"
 	"github.com/MontFerret/contrib/modules/db/sqlite"
+	"github.com/MontFerret/contrib/modules/document/pdf"
+	"github.com/MontFerret/contrib/modules/document/xlsx"
+	"github.com/MontFerret/contrib/modules/net/rest"
 	"github.com/MontFerret/contrib/modules/security/jwt"
 	"github.com/MontFerret/contrib/modules/toml"
 	"github.com/MontFerret/contrib/modules/web/article"
@@ -16,6 +19,7 @@ import (
 	"github.com/MontFerret/contrib/modules/xml"
 	"github.com/MontFerret/contrib/modules/yaml"
 	"github.com/MontFerret/ferret/v2"
+	"github.com/MontFerret/ferret/v2/pkg/module"
 	"github.com/MontFerret/worker/pkg/caching"
 )
 
@@ -27,9 +31,11 @@ type (
 	}
 
 	options struct {
-		engine []ferret.Option
-		cdp    CDPSettings
-		cache  []caching.Option
+		engine     []ferret.Option
+		cdp        CDPSettings
+		cache      []caching.Option
+		httpPolicy HTTPPolicy
+		rest       bool
 	}
 
 	Options struct {
@@ -57,10 +63,15 @@ func newOptions(setters []Option) (Options, error) {
 		cache: []caching.Option{
 			caching.WithSize(50),
 		},
+		httpPolicy: DefaultHTTPPolicy(),
 	}
 
 	for _, setter := range setters {
 		setter(opts)
+	}
+
+	if err := validateHTTPPolicy(opts.httpPolicy); err != nil {
+		return Options{}, err
 	}
 
 	drivers, err := html.New(
@@ -74,19 +85,28 @@ func newOptions(setters []Option) (Options, error) {
 		return Options{}, fmt.Errorf("create HTML module: %w", err)
 	}
 
+	mods := []module.Module{
+		csv.New(),
+		toml.New(),
+		xml.New(),
+		yaml.New(),
+		article.New(),
+		robots.New(),
+		sitemap.New(),
+		drivers,
+		pdf.New(),
+		xlsx.New(),
+		sqlite.New(sqlite.WithMemoryOnly()),
+		jwt.New(),
+	}
+
+	if opts.rest {
+		mods = append(mods, rest.New())
+	}
+
 	def := []ferret.Option{
-		ferret.WithModules(
-			csv.New(),
-			toml.New(),
-			xml.New(),
-			yaml.New(),
-			article.New(),
-			robots.New(),
-			sitemap.New(),
-			drivers,
-			sqlite.New(sqlite.WithMemoryOnly()),
-			jwt.New(),
-		),
+		ferret.WithModules(mods...),
+		ferret.WithNetwork(newNetwork(opts.httpPolicy)),
 	}
 
 	if len(opts.engine) > 0 {
@@ -120,5 +140,20 @@ func WithCacheSize(cache uint) Option {
 func WithFSRoot(rootDir string) Option {
 	return func(opts *options) {
 		opts.engine = append(opts.engine, ferret.WithFSRoot(rootDir))
+	}
+}
+
+// WithHTTPPolicy configures Ferret policy-backed HTTP egress for Worker.
+func WithHTTPPolicy(policy HTTPPolicy) Option {
+	return func(opts *options) {
+		opts.httpPolicy = policy
+	}
+}
+
+// WithRESTModule enables the NET::REST module. Queries can use it to make
+// outbound HTTP requests through the configured Ferret HTTP policy.
+func WithRESTModule() Option {
+	return func(opts *options) {
+		opts.rest = true
 	}
 }
