@@ -11,7 +11,7 @@ require (
 	github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.5
 	github.com/MontFerret/contrib/modules/toml v1.0.0-rc.7
 	github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.8
-	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.12
+	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.13
 	github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.7
 	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.7
 	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.7
