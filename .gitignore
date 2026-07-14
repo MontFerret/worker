@@ -112,3 +112,4 @@ dist
 coverage.txt
 .private
 gha-creds-*.json
+.ferret-browser/
