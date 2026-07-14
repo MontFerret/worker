@@ -3,20 +3,20 @@ module github.com/MontFerret/worker
 go 1.26.1
 
 require (
-	github.com/MontFerret/contrib/modules/csv v1.0.0-rc.9
-	github.com/MontFerret/contrib/modules/db/sqlite v1.0.0-rc.5
-	github.com/MontFerret/contrib/modules/document/pdf v1.0.0-rc.1
-	github.com/MontFerret/contrib/modules/document/xlsx v1.0.0-rc.1
-	github.com/MontFerret/contrib/modules/net/rest v1.0.0-rc.4
-	github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.5
-	github.com/MontFerret/contrib/modules/toml v1.0.0-rc.7
-	github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.8
-	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.13
-	github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.7
-	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.7
-	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.7
-	github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.7
-	github.com/MontFerret/ferret/v2 v2.0.0-alpha.31
+	github.com/MontFerret/contrib/modules/csv v1.0.0-rc.11
+	github.com/MontFerret/contrib/modules/db/sqlite v1.0.0-rc.7
+	github.com/MontFerret/contrib/modules/document/pdf v1.0.0-rc.3
+	github.com/MontFerret/contrib/modules/document/xlsx v1.0.0-rc.3
+	github.com/MontFerret/contrib/modules/net/rest v1.0.0-rc.6
+	github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.7
+	github.com/MontFerret/contrib/modules/toml v1.0.0-rc.9
+	github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.10
+	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.15
+	github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.9
+	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.9
+	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.9
+	github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.9
+	github.com/MontFerret/ferret/v2 v2.0.0-alpha.32
 	github.com/go-waitfor/waitfor v1.1.0
 	github.com/go-waitfor/waitfor-http v1.1.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
@@ -24,7 +24,7 @@ require (
 	github.com/namsral/flag v1.7.4-pre
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.35.1
-	github.com/ziflex/lecho/v3 v3.11.0
+	github.com/ziflex/lecho/v3 v3.11.1
 	golang.org/x/time v0.15.0
 )
 
@@ -72,9 +72,9 @@ require (
 	github.com/xuri/excelize/v2 v2.11.0 // indirect
 	github.com/xuri/nfp v0.0.2-0.20250530014748-2ddeb826f9a9 // indirect
 	github.com/ziflex/dbx v1.10.0 // indirect
-	golang.org/x/crypto v0.53.0 // indirect
-	golang.org/x/exp v0.0.0-20260611194520-c48552f49976 // indirect
-	golang.org/x/net v0.56.0 // indirect
+	golang.org/x/crypto v0.54.0 // indirect
+	golang.org/x/exp v0.0.0-20260709172345-9ea1abe57597 // indirect
+	golang.org/x/net v0.57.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/text v0.40.0 // indirect
