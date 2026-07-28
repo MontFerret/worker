@@ -9,14 +9,14 @@ require (
 	github.com/MontFerret/contrib/modules/document/xlsx v1.0.0-rc.3
 	github.com/MontFerret/contrib/modules/net/rest v1.0.0-rc.6
 	github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.7
-	github.com/MontFerret/contrib/modules/toml v1.0.0-rc.9
+	github.com/MontFerret/contrib/modules/toml v1.0.0-rc.11
 	github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.10
 	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.15
 	github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.9
 	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.9
 	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.9
 	github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.9
-	github.com/MontFerret/ferret/v2 v2.0.0-alpha.33
+	github.com/MontFerret/ferret/v2 v2.0.0-alpha.36
 	github.com/go-waitfor/waitfor v1.1.0
 	github.com/go-waitfor/waitfor-http v1.1.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
