@@ -3,12 +3,15 @@ package worker
 import (
 	"fmt"
 
+	"github.com/MontFerret/contrib/modules/ai/llm"
+	"github.com/MontFerret/contrib/modules/archive"
 	"github.com/MontFerret/contrib/modules/csv"
 	"github.com/MontFerret/contrib/modules/db/sqlite"
 	"github.com/MontFerret/contrib/modules/document/pdf"
 	"github.com/MontFerret/contrib/modules/document/xlsx"
 	"github.com/MontFerret/contrib/modules/net/rest"
 	"github.com/MontFerret/contrib/modules/security/jwt"
+	"github.com/MontFerret/contrib/modules/security/oauth2"
 	"github.com/MontFerret/contrib/modules/toml"
 	"github.com/MontFerret/contrib/modules/web/article"
 	"github.com/MontFerret/contrib/modules/web/html"
@@ -98,6 +101,9 @@ func newOptions(setters []Option) (Options, error) {
 		xlsx.New(),
 		sqlite.New(sqlite.WithMemoryOnly()),
 		jwt.New(),
+		oauth2.New(),
+		llm.New(),
+		archive.New(),
 	}
 
 	if opts.rest {
