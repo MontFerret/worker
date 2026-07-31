@@ -61,7 +61,6 @@ func newNetwork(policy HTTPPolicy) (ferretnet.Network, error) {
 	}
 
 	policy = normalizeHTTPPolicy(policy)
-
 	client := ferrethttp.Client(disabledHTTPClient{})
 
 	if policy.AllowAllHosts || len(policy.AllowedHosts) > 0 {

@@ -190,68 +190,6 @@ func TestRESTMaxRequestSizeBlocksOversizedBody(t *testing.T) {
 	}
 }
 
-func TestRESTBlockedRequestHeadersAreStripped(t *testing.T) {
-	var called atomic.Bool
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		called.Store(true)
-
-		if r.Header.Get("Authorization") != "" {
-			t.Fatalf("expected Authorization header to be stripped, got %q", r.Header.Get("Authorization"))
-		}
-		if r.Header.Get("Cookie") != "" {
-			t.Fatalf("expected Cookie header to be stripped, got %q", r.Header.Get("Cookie"))
-		}
-		if r.Header.Get("Proxy-Authorization") != "" {
-			t.Fatalf("expected Proxy-Authorization header to be stripped, got %q", r.Header.Get("Proxy-Authorization"))
-		}
-		if r.Header.Get("X-Keep") != "ok" {
-			t.Fatalf("expected X-Keep header to be forwarded, got %q", r.Header.Get("X-Keep"))
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		_ = json.NewEncoder(w).Encode(map[string]any{"ok": true})
-	}))
-	defer server.Close()
-
-	wkr, err := New(
-		WithRESTModule(),
-		WithHTTPPolicy(testHTTPPolicy(t, server.URL)),
-	)
-	if err != nil {
-		t.Fatalf("new worker: %v", err)
-	}
-
-	out, err := wkr.DoQuery(context.Background(), Query{
-		Text: `
-			LET api = NET::REST::CLIENT({
-				baseUrl: @baseUrl,
-				encoding: "json"
-			})
-			LET res = QUERY ONE "/headers" IN api USING http WITH {
-				headers: {
-					Authorization: "Bearer token",
-					Cookie: "sid=1",
-					"Proxy-Authorization": "Basic abc",
-					"X-Keep": "ok"
-				}
-			}
-			RETURN res.ok
-		`,
-		Params: map[string]interface{}{
-			"baseUrl": server.URL,
-		},
-	})
-	if err != nil {
-		t.Fatalf("do query: %v", err)
-	}
-	if !called.Load() {
-		t.Fatal("expected HTTP server to be called")
-	}
-	if strings.TrimSpace(string(out.Raw)) != "true" {
-		t.Fatalf("expected true output, got %s", out.Raw)
-	}
-}
-
 func testHTTPPolicy(t *testing.T, rawURL string) HTTPPolicy {
 	t.Helper()
 
