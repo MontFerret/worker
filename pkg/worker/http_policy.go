@@ -55,19 +55,28 @@ func validateHTTPPolicy(policy HTTPPolicy) error {
 	return nil
 }
 
-func newNetwork(policy HTTPPolicy) ferretnet.Network {
-	policy = normalizeHTTPPolicy(policy)
+func newNetwork(policy HTTPPolicy) (ferretnet.Network, error) {
+	if err := validateHTTPPolicy(policy); err != nil {
+		return nil, err
+	}
 
+	policy = normalizeHTTPPolicy(policy)
 	client := ferrethttp.Client(disabledHTTPClient{})
+
 	if policy.AllowAllHosts || len(policy.AllowedHosts) > 0 {
-		client = ferrethttp.New(httpPolicyOptions(policy)...)
+		var err error
+		client, err = ferrethttp.New(httpPolicyOptions(policy)...)
+
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return ferretnet.New(ferretnet.WithHTTPClient(client))
 }
 
-func httpPolicyOptions(policy HTTPPolicy) []ferrethttp.Policy {
-	opts := []ferrethttp.Policy{
+func httpPolicyOptions(policy HTTPPolicy) []ferrethttp.PolicyOption {
+	opts := []ferrethttp.PolicyOption{
 		ferrethttp.WithAllowedSchemes(policy.AllowedSchemes...),
 		ferrethttp.WithBlockedHosts(policy.BlockedHosts...),
 		ferrethttp.WithBlockedRequestHeaders(policy.BlockedRequestHeaders...),

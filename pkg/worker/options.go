@@ -110,9 +110,15 @@ func newOptions(setters []Option) (Options, error) {
 		mods = append(mods, rest.New())
 	}
 
+	ferretnet, err := newNetwork(opts.httpPolicy)
+
+	if err != nil {
+		return Options{}, fmt.Errorf("create network: %w", err)
+	}
+
 	def := []ferret.Option{
 		ferret.WithModules(mods...),
-		ferret.WithNetwork(newNetwork(opts.httpPolicy)),
+		ferret.WithNetwork(ferretnet),
 	}
 
 	if len(opts.engine) > 0 {
