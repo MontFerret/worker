@@ -1,0 +1,180 @@
+name: Update website Worker version
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-website-worker-version-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: startsWith(github.event.release.tag_name, 'v2.')
+    runs-on: ubuntu-latest
+    env:
+      TARGET_BRANCH: dev
+      TARGET_REPOSITORY: MontFerret/montferret.github.io
+      WORKER_RELEASE_TAG: ${{ github.event.release.tag_name }}
+    steps:
+      - name: Validate release metadata
+        id: metadata
+        run: |
+          set -euo pipefail
+
+          prerelease_identifier='(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)'
+          semver_pattern="^v2\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-${prerelease_identifier}(\\.${prerelease_identifier})*)?(\\+[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$"
+          if [[ ! "$WORKER_RELEASE_TAG" =~ $semver_pattern ]]; then
+            echo "::error title=Invalid Worker release version::Expected a v2 SemVer tag, got '$WORKER_RELEASE_TAG'."
+            exit 1
+          fi
+
+          worker_version="${WORKER_RELEASE_TAG#v}"
+          update_branch="chore/worker-version-${worker_version}"
+          git check-ref-format --branch "$update_branch"
+
+          echo "branch=$update_branch" >> "$GITHUB_OUTPUT"
+          echo "version=$worker_version" >> "$GITHUB_OUTPUT"
+
+      - name: Create repository-scoped GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ secrets.FERRET_RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.FERRET_RELEASE_APP_PRIVATE_KEY }}
+          owner: MontFerret
+          repositories: montferret.github.io
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Checkout website development branch
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_BRANCH }}
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Update Worker version
+        id: version-file
+        env:
+          WORKER_VERSION: ${{ steps.metadata.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          version_file='data/versions.yaml'
+          temporary_file="$(mktemp)"
+          trap 'rm -f "$temporary_file"' EXIT
+
+          awk -v version="$WORKER_VERSION" '
+            /^worker:[[:space:]]*$/ {
+              worker_blocks++
+              in_worker = 1
+              print
+              next
+            }
+
+            in_worker && /^[^[:space:]]/ {
+              in_worker = 0
+            }
+
+            in_worker && /^    v2:[[:space:]]*/ {
+              worker_v2_keys++
+              if ($0 !~ /^    v2:[[:space:]]*"[^"]*"[[:space:]]*(#.*)?$/) {
+                invalid_worker_v2 = 1
+              } else {
+                sub(/"[^"]*"/, "\"" version "\"")
+              }
+            }
+
+            { print }
+
+            END {
+              failed = 0
+              if (worker_blocks != 1) {
+                printf "::error title=Invalid website version file::Expected exactly one top-level worker mapping, found %d.\n", worker_blocks > "/dev/stderr"
+                failed = 1
+              }
+              if (worker_v2_keys != 1) {
+                printf "::error title=Invalid website version file::Expected exactly one worker.v2 key, found %d.\n", worker_v2_keys > "/dev/stderr"
+                failed = 1
+              }
+              if (invalid_worker_v2) {
+                print "::error title=Invalid website version file::Expected worker.v2 to be a double-quoted scalar." > "/dev/stderr"
+                failed = 1
+              }
+              exit failed
+            }
+          ' "$version_file" > "$temporary_file"
+
+          mv "$temporary_file" "$version_file"
+          trap - EXIT
+
+          git add -- "$version_file"
+          staged_files="$(git diff --cached --name-only)"
+          if [[ -z "$staged_files" ]]; then
+            echo "Website already references Worker ${WORKER_RELEASE_TAG}."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [[ "$staged_files" != "$version_file" ]]; then
+            echo "::error title=Unexpected website changes::Expected only $version_file to be staged."
+            git status --short
+            exit 1
+          fi
+
+          git diff --cached --check
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push update branch
+        if: steps.version-file.outputs.changed == 'true'
+        env:
+          UPDATE_BRANCH: ${{ steps.metadata.outputs.branch }}
+        run: |
+          set -euo pipefail
+
+          if ! git diff --quiet; then
+            echo "::error title=Unexpected website changes::Found unstaged changes outside the Worker version update."
+            git status --short
+            exit 1
+          fi
+
+          git config user.name "ferret-release[bot]"
+          git config user.email "ferret-release[bot]@users.noreply.github.com"
+          git switch -c "$UPDATE_BRANCH"
+          git commit -m "chore: update Worker website version to ${WORKER_RELEASE_TAG}"
+
+          remote_ref="refs/heads/${UPDATE_BRANCH}"
+          remote_sha="$(git ls-remote --heads origin "$remote_ref" | awk '{ print $1 }')"
+          if [[ -n "$remote_sha" ]]; then
+            git push --force-with-lease="${remote_ref}:${remote_sha}" --set-upstream origin "HEAD:${remote_ref}"
+          else
+            git push --set-upstream origin "HEAD:${remote_ref}"
+          fi
+
+      - name: Create or reuse pull request
+        if: steps.version-file.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+          UPDATE_BRANCH: ${{ steps.metadata.outputs.branch }}
+        run: |
+          set -euo pipefail
+
+          existing_pr="$(gh pr list --repo "$TARGET_REPOSITORY" --state open --head "$UPDATE_BRANCH" --json url --jq '.[0].url // empty')"
+          if [[ -n "$existing_pr" ]]; then
+            echo "Updated existing pull request: $existing_pr"
+            exit 0
+          fi
+
+          gh pr create \
+            --repo "$TARGET_REPOSITORY" \
+            --base "$TARGET_BRANCH" \
+            --head "$UPDATE_BRANCH" \
+            --title "chore: update Worker website version to ${WORKER_RELEASE_TAG}" \
+            --body "Automated website version update triggered by Worker release [${WORKER_RELEASE_TAG}](${RELEASE_URL})."
