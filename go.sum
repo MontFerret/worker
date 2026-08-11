@@ -20,8 +20,8 @@ github.com/MontFerret/contrib/modules/document/xlsx v1.0.0-rc.7 h1:AKbW+atdl4Rau
 github.com/MontFerret/contrib/modules/document/xlsx v1.0.0-rc.7/go.mod h1:unIkeLd6Teyi60ZMnqlQvgSK8SkMJy1bFauX0UWOPAU=
 github.com/MontFerret/contrib/modules/net/rest v1.0.0-rc.10 h1:5gwNoqrDpJn2KvWK9gi41lWS7qvVpMxMSS6HLN32aWU=
 github.com/MontFerret/contrib/modules/net/rest v1.0.0-rc.10/go.mod h1:Tcwia2XuOfDx566oBHkqiY2ysTaFZVsgIwDz1D+T6o8=
-github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.11 h1:Q6sngEnEDbq/HmU457m2XnOAcNvl2jsUBbS0Gl9A+xc=
-github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.11/go.mod h1:YaJIK3/QH2a21qCf0Evvojymvf/3h8uNBedla+FB1kQ=
+github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.12 h1:CxRwX2TXOE+AlPkC+7PBGR0Pxaob/w0KsHTkz7G70JE=
+github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.12/go.mod h1:YaJIK3/QH2a21qCf0Evvojymvf/3h8uNBedla+FB1kQ=
 github.com/MontFerret/contrib/modules/security/oauth2 v1.0.0-rc.2 h1:IKQbn3TT9zX7Oiolh/td++Hu6J6x4zRhXN+//wEqoq4=
 github.com/MontFerret/contrib/modules/security/oauth2 v1.0.0-rc.2/go.mod h1:HG0c9fdzds3mrhYi0GXugMohy+P2iEg5rA1OxnYyh7A=
 github.com/MontFerret/contrib/modules/toml v1.0.0-rc.13 h1:dWZorLXczuIc1hyVn8ziaioGTxAWVvrOELVt2s7H2es=
