@@ -17,7 +17,7 @@ require (
 	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.20
 	github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.13
 	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.13
-	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.13
+	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.14
 	github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.13
 	github.com/MontFerret/ferret/v2 v2.0.0-alpha.45
 	github.com/go-waitfor/waitfor v1.1.0
