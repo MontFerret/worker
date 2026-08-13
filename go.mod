@@ -19,7 +19,7 @@ require (
 	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.13
 	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.13
 	github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.13
-	github.com/MontFerret/ferret/v2 v2.0.0-alpha.44
+	github.com/MontFerret/ferret/v2 v2.0.0-alpha.45
 	github.com/go-waitfor/waitfor v1.1.0
 	github.com/go-waitfor/waitfor-http v1.1.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
@@ -76,7 +76,6 @@ require (
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
-	github.com/wI2L/jettison v0.7.4 // indirect
 	github.com/xuri/efp v0.0.1 // indirect
 	github.com/xuri/excelize/v2 v2.11.0 // indirect
 	github.com/xuri/nfp v0.0.2-0.20250530014748-2ddeb826f9a9 // indirect
