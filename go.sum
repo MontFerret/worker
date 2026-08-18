@@ -26,8 +26,8 @@ github.com/MontFerret/contrib/modules/security/oauth2 v1.0.0-rc.2 h1:IKQbn3TT9zX
 github.com/MontFerret/contrib/modules/security/oauth2 v1.0.0-rc.2/go.mod h1:HG0c9fdzds3mrhYi0GXugMohy+P2iEg5rA1OxnYyh7A=
 github.com/MontFerret/contrib/modules/toml v1.0.0-rc.13 h1:dWZorLXczuIc1hyVn8ziaioGTxAWVvrOELVt2s7H2es=
 github.com/MontFerret/contrib/modules/toml v1.0.0-rc.13/go.mod h1:ULj0fpfIxmt+uFqIbypSu5RpwijbRatXPusQj9T0yes=
-github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.14 h1:0XjtCOyNLQDbGOGejB5OgXmbTvBw2aUyc9HOd4nHycg=
-github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.14/go.mod h1:KUU7SAVm15IS1UGM0/m0ignOt634ZxYcTyEq30683Ro=
+github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.16 h1:MZawjVPqqiOJZiPDkdq57A5Z4Y6dF1S9/5YvHwheTVQ=
+github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.16/go.mod h1:KUU7SAVm15IS1UGM0/m0ignOt634ZxYcTyEq30683Ro=
 github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.20 h1:JWHqm0fitC75MkMxzgnVV8/MWWM42x7W1G3fzvRv3KA=
 github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.20/go.mod h1:TD0GRnqgI4/dqXOgDdAHUYWFQpMe/6IWK4Rnd9JDY3s=
 github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.13 h1:X7SqFTibgSYt5KUCvp0fiUnZ7g6yVr0K/o8UxGJCGjE=
