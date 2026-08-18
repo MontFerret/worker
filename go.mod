@@ -15,7 +15,7 @@ require (
 	github.com/MontFerret/contrib/modules/toml v1.0.0-rc.13
 	github.com/MontFerret/contrib/modules/web/article v1.0.0-rc.14
 	github.com/MontFerret/contrib/modules/web/html v1.0.0-rc.20
-	github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.13
+	github.com/MontFerret/contrib/modules/web/robots v1.0.0-rc.15
 	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.13
 	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.14
 	github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.13
