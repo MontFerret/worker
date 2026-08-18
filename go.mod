@@ -3,7 +3,7 @@ module github.com/MontFerret/worker
 go 1.26.5
 
 require (
-	github.com/MontFerret/contrib/modules/ai/llm v1.0.0-rc.3
+	github.com/MontFerret/contrib/modules/ai/llm v1.0.0-rc.5
 	github.com/MontFerret/contrib/modules/archive v1.0.0-rc.3
 	github.com/MontFerret/contrib/modules/csv v1.0.0-rc.15
 	github.com/MontFerret/contrib/modules/db/sqlite v1.0.0-rc.12

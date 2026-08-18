@@ -6,8 +6,8 @@ github.com/JohannesKaufmann/dom v0.3.1 h1:J16l9JAHWgkFPR3VIPbQ1gvS0cWab6laK1q7PF
 github.com/JohannesKaufmann/dom v0.3.1/go.mod h1:BZPkf8ZeYrBgABjwJn9iiKt8aiCtkxpHkevms+Yp2DE=
 github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2 h1:XFJZFWESIWlUEHHjzBuv8RvrtCWnSGlimEX17ysSDb8=
 github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2/go.mod h1:BHWO8lJzttJLqwuV8Rb1B3OG2OSzLbssZDI1FRg2eAA=
-github.com/MontFerret/contrib/modules/ai/llm v1.0.0-rc.3 h1:9HIwVqIwhk/8ergf9Y6GX0hWJxUGvdacf9BXQrA4NUE=
-github.com/MontFerret/contrib/modules/ai/llm v1.0.0-rc.3/go.mod h1:i2NDjugVn3UGbCB+4/1ObX6bWHg1ve1hBhfx0/7CexM=
+github.com/MontFerret/contrib/modules/ai/llm v1.0.0-rc.5 h1:vmnnCcAyyPGygSFjoXfxAxViwO1DZ7iGzEvNnAKZLXA=
+github.com/MontFerret/contrib/modules/ai/llm v1.0.0-rc.5/go.mod h1:i2NDjugVn3UGbCB+4/1ObX6bWHg1ve1hBhfx0/7CexM=
 github.com/MontFerret/contrib/modules/archive v1.0.0-rc.3 h1:0D4bQ9z85AsG9+EeBSputmsfCaLpk5PX28Jw8ZkynZY=
 github.com/MontFerret/contrib/modules/archive v1.0.0-rc.3/go.mod h1:D6jS9vE+qy2Ael8nwHU7z1R5eOXZPy+jki0cJKvn2kQ=
 github.com/MontFerret/contrib/modules/csv v1.0.0-rc.15 h1:FAF6RIDxhNebrupI90gsiehetxOnCWxeNKldBgk6ueg=
