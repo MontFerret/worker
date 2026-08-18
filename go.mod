@@ -8,7 +8,7 @@ require (
 	github.com/MontFerret/contrib/modules/csv v1.0.0-rc.15
 	github.com/MontFerret/contrib/modules/db/sqlite v1.0.0-rc.12
 	github.com/MontFerret/contrib/modules/document/pdf v1.0.0-rc.8
-	github.com/MontFerret/contrib/modules/document/xlsx v1.0.0-rc.7
+	github.com/MontFerret/contrib/modules/document/xlsx v1.0.0-rc.9
 	github.com/MontFerret/contrib/modules/net/rest v1.0.0-rc.10
 	github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.12
 	github.com/MontFerret/contrib/modules/security/oauth2 v1.0.0-rc.2

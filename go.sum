@@ -16,8 +16,8 @@ github.com/MontFerret/contrib/modules/db/sqlite v1.0.0-rc.12 h1:DC7SULmUvSSNtRzp
 github.com/MontFerret/contrib/modules/db/sqlite v1.0.0-rc.12/go.mod h1:Vf0D+gk6qD5yBAHhUPA20kSfbBX96UqrPe45y2she70=
 github.com/MontFerret/contrib/modules/document/pdf v1.0.0-rc.8 h1:2F+/DexC0C8h4qRaxbEJQ4GyFUQcPrPcMW1keuCAIgs=
 github.com/MontFerret/contrib/modules/document/pdf v1.0.0-rc.8/go.mod h1:Q8gmuKDCwl7ao0MbT3rebl/AGLpe44ceeRNMWzIfkDI=
-github.com/MontFerret/contrib/modules/document/xlsx v1.0.0-rc.7 h1:AKbW+atdl4RauSuHHn0fLEkKhJeH0hMThEKDroOs6fA=
-github.com/MontFerret/contrib/modules/document/xlsx v1.0.0-rc.7/go.mod h1:unIkeLd6Teyi60ZMnqlQvgSK8SkMJy1bFauX0UWOPAU=
+github.com/MontFerret/contrib/modules/document/xlsx v1.0.0-rc.9 h1:xzr4YppRZmso0yfv9wM2wbBccZ5uQ/YVSnt2wJKl8Ak=
+github.com/MontFerret/contrib/modules/document/xlsx v1.0.0-rc.9/go.mod h1:unIkeLd6Teyi60ZMnqlQvgSK8SkMJy1bFauX0UWOPAU=
 github.com/MontFerret/contrib/modules/net/rest v1.0.0-rc.10 h1:5gwNoqrDpJn2KvWK9gi41lWS7qvVpMxMSS6HLN32aWU=
 github.com/MontFerret/contrib/modules/net/rest v1.0.0-rc.10/go.mod h1:Tcwia2XuOfDx566oBHkqiY2ysTaFZVsgIwDz1D+T6o8=
 github.com/MontFerret/contrib/modules/security/jwt v1.0.0-rc.12 h1:CxRwX2TXOE+AlPkC+7PBGR0Pxaob/w0KsHTkz7G70JE=
