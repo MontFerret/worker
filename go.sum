@@ -36,8 +36,8 @@ github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.13 h1:glfxtdTyCEpjAR
 github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.13/go.mod h1:Y3l2+zqGtJuqYCW7uS07GMxb7yNJaHfZEDrDsZnG+Hc=
 github.com/MontFerret/contrib/modules/xml v1.0.0-rc.14 h1:eoDSkWgR+XsMaWPDIhyt4bTcc2q7cVGvgeMt0EWaYHc=
 github.com/MontFerret/contrib/modules/xml v1.0.0-rc.14/go.mod h1:RCuSflR388JCE9GDCtRTSyMEb93RlBCescphFNpoeIo=
-github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.13 h1:l/+pG7av9LeQ2Vw9/mOQTjAx/mfe4Wy/LtQyyfmy4hw=
-github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.13/go.mod h1:qqTlw8QI8dcPI+oRhkQ+5t5t1kb2gRPzr0zTQWlakWo=
+github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.15 h1:ZUM9i1dLnkGq91q9sb+uXNfNufLjduWgtpro4E5WcTI=
+github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.15/go.mod h1:qqTlw8QI8dcPI+oRhkQ+5t5t1kb2gRPzr0zTQWlakWo=
 github.com/MontFerret/contrib/pkg/common v0.2.0 h1:/ftEguEPPg7tGTAHUkTzu4y+nW234BljQ4chiiMCDgU=
 github.com/MontFerret/contrib/pkg/common v0.2.0/go.mod h1:bgwvpoX6xgEIWRQvEmftgsgbs2JER0DHqMqXqyuWq6E=
 github.com/MontFerret/cssx v0.2.0 h1:De0C6Irbg+qgFPXgWmPpVnwD4RRYUBQSbIYFTUVCNWU=
