@@ -19,7 +19,7 @@ require (
 	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.13
 	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.14
 	github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.13
-	github.com/MontFerret/ferret/v2 v2.0.0-alpha.48
+	github.com/MontFerret/ferret/v2 v2.0.0-alpha.50
 	github.com/go-waitfor/waitfor v1.1.0
 	github.com/go-waitfor/waitfor-http v1.1.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
