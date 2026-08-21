@@ -66,13 +66,13 @@ var (
 	)
 
 	fsRoot = flag.String(
-		"fs-root",
+		"policy-fs-root",
 		"",
 		"file system root directory for FQL IO::FS functions. Defaults to the current working directory.",
 	)
 
 	httpAllowedHosts = flag.String(
-		"http-allowed-hosts",
+		"policy-http-allowed-hosts",
 		strings.Join(defaultHTTPPolicy.AllowedHosts, ","),
 		"comma-separated exact hosts or host:port values allowed for Ferret HTTP requests",
 	)
@@ -84,55 +84,55 @@ var (
 	)
 
 	httpBlockedHosts = flag.String(
-		"http-blocked-hosts",
+		"policy-http-blocked-hosts",
 		strings.Join(defaultHTTPPolicy.BlockedHosts, ","),
 		"comma-separated exact hosts or host:port values blocked for Ferret HTTP requests",
 	)
 
 	httpTimeout = flag.Duration(
-		"http-timeout",
+		"policy-http-timeout",
 		defaultHTTPPolicy.Timeout,
 		"timeout for Ferret HTTP requests",
 	)
 
 	httpMaxRequestSize = flag.Int64(
-		"http-max-request-size",
+		"policy-http-max-request-size",
 		defaultHTTPPolicy.MaxRequestSize,
 		"maximum Ferret HTTP request body size in bytes. 0 means no limit.",
 	)
 
 	httpMaxResponseSize = flag.Int64(
-		"http-max-response-size",
+		"policy-http-max-response-size",
 		defaultHTTPPolicy.MaxResponseSize,
 		"maximum Ferret HTTP response body size in bytes. 0 means no limit.",
 	)
 
 	httpMaxRedirects = flag.Int(
-		"http-max-redirects",
+		"policy-http-max-redirects",
 		defaultHTTPPolicy.MaxRedirects,
 		"maximum number of redirects followed by Ferret HTTP requests. 0 uses the Go standard library default.",
 	)
 
 	httpFollowRedirects = flag.Bool(
-		"http-follow-redirects",
+		"policy-http-follow-redirects",
 		defaultHTTPPolicy.FollowRedirects,
 		"follow redirects for Ferret HTTP requests",
 	)
 
 	httpAllowLocalhost = flag.Bool(
-		"http-allow-localhost",
+		"policy-http-allow-localhost",
 		defaultHTTPPolicy.AllowLocalhost,
 		"allow Ferret HTTP requests to localhost and loopback literal addresses",
 	)
 
 	httpAllowPrivateNetworks = flag.Bool(
-		"http-allow-private-networks",
+		"policy-http-allow-private-networks",
 		defaultHTTPPolicy.AllowPrivateNetworks,
 		"allow Ferret HTTP requests to private-network literal IP addresses",
 	)
 
 	httpBlockedRequestHeaders = flag.String(
-		"http-blocked-request-headers",
+		"policy-http-blocked-request-headers",
 		strings.Join(defaultHTTPPolicy.BlockedRequestHeaders, ","),
 		"comma-separated request headers removed from Ferret HTTP requests",
 	)
@@ -233,7 +233,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	resolvedFSRoot, err := resolveFSRoot(*fsRoot, flagIsSet("fs-root"))
+	resolvedFSRoot, err := resolveFSRoot(*fsRoot, flagIsSet("policy-fs-root"))
 
 	if err != nil {
 		fmt.Println(err)

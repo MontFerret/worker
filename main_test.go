@@ -6,8 +6,52 @@ import (
 	"testing"
 	"time"
 
+	"github.com/namsral/flag"
+
 	"github.com/MontFerret/worker/pkg/worker"
 )
+
+func TestPolicyFlagNames(t *testing.T) {
+	tests := []struct {
+		name           string
+		wantRegistered bool
+	}{
+		{name: "policy-fs-root", wantRegistered: true},
+		{name: "policy-http-allowed-hosts", wantRegistered: true},
+		{name: "policy-http-blocked-hosts", wantRegistered: true},
+		{name: "policy-http-timeout", wantRegistered: true},
+		{name: "policy-http-max-request-size", wantRegistered: true},
+		{name: "policy-http-max-response-size", wantRegistered: true},
+		{name: "policy-http-max-redirects", wantRegistered: true},
+		{name: "policy-http-follow-redirects", wantRegistered: true},
+		{name: "policy-http-allow-localhost", wantRegistered: true},
+		{name: "policy-http-allow-private-networks", wantRegistered: true},
+		{name: "policy-http-blocked-request-headers", wantRegistered: true},
+		{name: "fs-root", wantRegistered: false},
+		{name: "http-allowed-hosts", wantRegistered: false},
+		{name: "http-blocked-hosts", wantRegistered: false},
+		{name: "http-timeout", wantRegistered: false},
+		{name: "http-max-request-size", wantRegistered: false},
+		{name: "http-max-response-size", wantRegistered: false},
+		{name: "http-max-redirects", wantRegistered: false},
+		{name: "http-follow-redirects", wantRegistered: false},
+		{name: "http-allow-localhost", wantRegistered: false},
+		{name: "http-allow-private-networks", wantRegistered: false},
+		{name: "http-blocked-request-headers", wantRegistered: false},
+		{name: "http-allow-all-hosts", wantRegistered: true},
+		{name: "chrome-ip", wantRegistered: true},
+		{name: "request-limit", wantRegistered: true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			registered := flag.Lookup(tt.name) != nil
+			if registered != tt.wantRegistered {
+				t.Fatalf("expected registered to be %t, got %t", tt.wantRegistered, registered)
+			}
+		})
+	}
+}
 
 func TestResolveFSRootDefaultsToCurrentWorkingDirectory(t *testing.T) {
 	wd := t.TempDir()

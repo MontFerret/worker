@@ -208,29 +208,29 @@ HTTP/1.1 424 Failed Dependency
     port to listen
   -body-limit="1M"
     maximum allowed size for a request body (e.g., 4K, 4KB, 10M, 1G). Empty string means no limit.
-  -fs-root=""
+  -policy-fs-root=""
     file system root directory for FQL IO::FS functions. Defaults to the current working directory.
-  -http-allowed-hosts=""
+  -policy-http-allowed-hosts=""
     comma-separated exact hosts or host:port values allowed for Ferret HTTP requests
   -http-allow-all-hosts=false
     allow Ferret HTTP requests to any host while still applying scheme, timeout, size, redirect, and literal-address policy
-  -http-blocked-hosts=""
+  -policy-http-blocked-hosts=""
     comma-separated exact hosts or host:port values blocked for Ferret HTTP requests
-  -http-timeout=10s
+  -policy-http-timeout=10s
     timeout for Ferret HTTP requests
-  -http-max-request-size=1048576
+  -policy-http-max-request-size=1048576
     maximum Ferret HTTP request body size in bytes. 0 means no limit.
-  -http-max-response-size=10485760
+  -policy-http-max-response-size=10485760
     maximum Ferret HTTP response body size in bytes. 0 means no limit.
-  -http-max-redirects=3
+  -policy-http-max-redirects=3
     maximum number of redirects followed by Ferret HTTP requests. 0 uses the Go standard library default.
-  -http-follow-redirects=true
+  -policy-http-follow-redirects=true
     follow redirects for Ferret HTTP requests
-  -http-allow-localhost=false
+  -policy-http-allow-localhost=false
     allow Ferret HTTP requests to localhost and loopback literal addresses
-  -http-allow-private-networks=false
+  -policy-http-allow-private-networks=false
     allow Ferret HTTP requests to private-network literal IP addresses
-  -http-blocked-request-headers="Authorization,Cookie,Proxy-Authorization"
+  -policy-http-blocked-request-headers="Authorization,Cookie,Proxy-Authorization"
     comma-separated request headers removed from Ferret HTTP requests
   -request-limit=0
     amount of requests per second for each IP. 0 means no limit.
@@ -260,7 +260,7 @@ worker \
   -request-limit=10 \
   -request-limit-time-window=60 \
   -body-limit=2000 \
-  -fs-root=/var/lib/ferret-worker \
+  -policy-fs-root=/var/lib/ferret-worker \
   -cache-size=500
 ```
 
@@ -289,9 +289,9 @@ worker -no-chrome=true
 **Allow Ferret HTTP egress for selected hosts:**
 ```bash
 worker \
-  -http-allowed-hosts=api.example.com,uploads.example.com:8443 \
-  -http-timeout=5s \
-  -http-max-response-size=5242880
+  -policy-http-allowed-hosts=api.example.com,uploads.example.com:8443 \
+  -policy-http-timeout=5s \
+  -policy-http-max-response-size=5242880
 ```
 
 ### Docker Configuration
@@ -321,8 +321,8 @@ docker run -d \
 - **Body Size Limits**: Set appropriate body size limits (`-body-limit`) to prevent abuse
 - **Network Security**: Worker should not be exposed directly to the internet without proper authentication
 - **Query Validation**: Consider implementing query validation/filtering for untrusted input
-- **Filesystem Access**: Worker enables FQL filesystem functions rooted at the current working directory by default. Set `-fs-root` to a dedicated directory in production.
-- **Outbound HTTP**: Ferret policy-backed HTTP egress is disabled by default. Configure `-http-allowed-hosts` with exact host or `host:port` values before allowing queries, including `NET::REST` and `IO::NET::HTTP`, to make HTTP requests.
+- **Filesystem Access**: Worker enables FQL filesystem functions rooted at the current working directory by default. Set `-policy-fs-root` to a dedicated directory in production.
+- **Outbound HTTP**: Ferret policy-backed HTTP egress is disabled by default. Configure `-policy-http-allowed-hosts` with exact host or `host:port` values before allowing queries, including `NET::REST` and `IO::NET::HTTP`, to make HTTP requests.
 - **Allow-all mode**: `-http-allow-all-hosts=true` keeps timeout, size, redirect, blocked-header, scheme, localhost literal, and private-IP literal limits, but hostnames are not DNS-resolved before policy evaluation. Prefer explicit host allowlists for SSRF-sensitive deployments.
 - **Resource Monitoring**: Monitor CPU and memory usage as complex queries can be resource-intensive
 - **Chrome Security**: The bundled Chrome runs in sandboxed mode, but avoid running as root in production
@@ -335,7 +335,7 @@ worker \
   -request-limit=5 \
   -request-limit-time-window=60 \
   -body-limit=1000 \
-  -fs-root=/var/lib/ferret-worker \
+  -policy-fs-root=/var/lib/ferret-worker \
   -cache-size=200
 ```
 
