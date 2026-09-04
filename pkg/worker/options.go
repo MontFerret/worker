@@ -77,17 +77,6 @@ func newOptions(setters []Option) (Options, error) {
 		return Options{}, err
 	}
 
-	drivers, err := html.New(
-		html.WithDefaultDriver(memory.New()),
-		html.WithDrivers(cdp.New(
-			cdp.WithAddress(opts.cdp.BaseURL()),
-		)),
-	)
-
-	if err != nil {
-		return Options{}, fmt.Errorf("create HTML module: %w", err)
-	}
-
 	mods := []module.Module{
 		csv.New(),
 		toml.New(),
@@ -96,7 +85,6 @@ func newOptions(setters []Option) (Options, error) {
 		article.New(),
 		robots.New(),
 		sitemap.New(),
-		drivers,
 		pdf.New(),
 		xlsx.New(),
 		sqlite.New(sqlite.WithMemoryOnly()),
@@ -104,6 +92,12 @@ func newOptions(setters []Option) (Options, error) {
 		oauth2.New(),
 		llm.New(),
 		archive.New(),
+		html.New(
+			html.WithDefaultDriver(memory.New()),
+			html.WithDrivers(cdp.New(
+				cdp.WithAddress(opts.cdp.BaseURL()),
+			)),
+		),
 	}
 
 	if opts.rest {
