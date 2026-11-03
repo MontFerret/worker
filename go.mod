@@ -3,7 +3,7 @@ module github.com/MontFerret/worker
 go 1.26.5
 
 require (
-	github.com/MontFerret/contrib/modules/ai/llm v1.0.0-rc.6
+	github.com/MontFerret/contrib/modules/ai/llm v1.0.0-rc.7
 	github.com/MontFerret/contrib/modules/archive v1.0.0-rc.5
 	github.com/MontFerret/contrib/modules/csv v1.0.0-rc.18
 	github.com/MontFerret/contrib/modules/db/sqlite v1.0.0-rc.14
@@ -19,7 +19,7 @@ require (
 	github.com/MontFerret/contrib/modules/web/sitemap v1.0.0-rc.16
 	github.com/MontFerret/contrib/modules/xml v1.0.0-rc.16
 	github.com/MontFerret/contrib/modules/yaml v1.0.0-rc.16
-	github.com/MontFerret/ferret/v2 v2.0.0-alpha.57
+	github.com/MontFerret/ferret/v2 v2.0.0-alpha.58
 	github.com/go-waitfor/waitfor v1.1.0
 	github.com/go-waitfor/waitfor-http v1.1.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
@@ -35,7 +35,7 @@ require (
 	github.com/BurntSushi/toml v1.6.0 // indirect
 	github.com/JohannesKaufmann/dom v0.3.1 // indirect
 	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2 // indirect
-	github.com/MontFerret/api v1.0.0-alpha.20 // indirect
+	github.com/MontFerret/api v1.0.0-alpha.21 // indirect
 	github.com/MontFerret/contrib/pkg/common v0.2.0 // indirect
 	github.com/MontFerret/cssx v0.2.0 // indirect
 	github.com/PuerkitoBio/goquery v1.13.0 // indirect
